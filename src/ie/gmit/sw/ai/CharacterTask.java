@@ -31,7 +31,7 @@ import javafx.concurrent.Task;
  *      }
  */
 
-public class CharacterTask extends Task<Void>{
+public class CharacterTask extends Task<Void> {
     private static final int SLEEP_TIME = 300; //Sleep for 300 ms
     private static ThreadLocalRandom rand = ThreadLocalRandom.current();
     private boolean alive = true;
@@ -68,11 +68,11 @@ public class CharacterTask extends Task<Void>{
             Thread.sleep(SLEEP_TIME);
 
             synchronized (model) {
-                //Randomly pick a direction up, down, left or right
+                // Randomly pick a direction up, down, left or right
                 int temp_row = row, temp_col = col;
                 if (rand.nextBoolean()) {
                     temp_row += rand.nextBoolean() ? 1 : -1;
-                }else {
+                } else {
                     temp_col += rand.nextBoolean() ? 1 : -1;
                 }
 
@@ -87,7 +87,7 @@ public class CharacterTask extends Task<Void>{
                     model.set(row, col, '\u0020');
                     row = temp_row;
                     col = temp_col;
-                }else {
+                } else {
                     /*
                      * This fires if a move is not valid, i.e. if someone or some thing
                      * is in the way. Use implementations of Command to control how the

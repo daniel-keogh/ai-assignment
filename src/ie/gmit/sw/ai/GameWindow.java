@@ -11,7 +11,7 @@ import javafx.stage.Stage;
  * Main UI for the game. You should not have to alter anything in this class.
  *
  */
-public class GameWindow extends Application{
+public class GameWindow extends Application {
     private static final char PLAYER_ID = '1';
     private static final int DEFAULT_SIZE = 60;
     private static final int IMAGE_COUNT = 6;
@@ -51,34 +51,34 @@ public class GameWindow extends Application{
         KeyCode key = e.getCode();
         if (key == KeyCode.RIGHT && currentCol < DEFAULT_SIZE - 1) {
             if (model.isValidMove(currentRow, currentCol, currentRow, currentCol + 1, PLAYER_ID)) currentCol++;
-        }else if (key == KeyCode.LEFT && currentCol > 0) {
+        } else if (key == KeyCode.LEFT && currentCol > 0) {
             if (model.isValidMove(currentRow, currentCol, currentRow, currentCol - 1, PLAYER_ID)) currentCol--;
-        }else if (key == KeyCode.UP && currentRow > 0) {
+        } else if (key == KeyCode.UP && currentRow > 0) {
             if (model.isValidMove(currentRow, currentCol, currentRow - 1, currentCol, PLAYER_ID)) currentRow--;
-        }else if (key == KeyCode.DOWN && currentRow < DEFAULT_SIZE - 1) {
+        } else if (key == KeyCode.DOWN && currentRow < DEFAULT_SIZE - 1) {
             if (model.isValidMove(currentRow, currentCol, currentRow + 1, currentCol, PLAYER_ID)) currentRow++;
-        }else if (key == KeyCode.Z){
+        } else if (key == KeyCode.Z) {
             view.toggleZoom();
-        }else{
+        } else {
             return;
         }
 
         updateView();
     }
 
-    private void placePlayer(){  //Place the main player character
+    private void placePlayer() {  //Place the main player character
         currentRow = (int) (DEFAULT_SIZE * Math.random());
         currentCol = (int) (DEFAULT_SIZE * Math.random());
         model.set(currentRow, currentCol, PLAYER_ID); //Player is at index 1
         updateView();
     }
 
-    private void updateView(){
+    private void updateView() {
         view.setCurrentRow(currentRow);
         view.setCurrentCol(currentCol);
     }
 
-    private Sprite[] getSprites() throws Exception{
+    private Sprite[] getSprites() throws Exception {
         /*
          * Read in the images from the resources directory as sprites. Each sprite is
          * referenced by its index in the array, e.g. a 3 implies a Pink Enemy... Ideally,

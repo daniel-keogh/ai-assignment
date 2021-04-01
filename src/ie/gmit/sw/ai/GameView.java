@@ -30,7 +30,7 @@ public class GameView extends Canvas{
     private Sprite[] sprites;
     private int imageIndex = -1;
 
-    public GameView(GameModel model) throws Exception{
+    public GameView(GameModel model) throws Exception {
         super(DEFAULT_VIEW_SIZE, DEFAULT_VIEW_SIZE);
         this.model = model;
 
@@ -40,21 +40,21 @@ public class GameView extends Canvas{
     }
 
     public void setCurrentRow(int row) {
-        if (row < cellpadding){
+        if (row < cellpadding) {
             currentRow = cellpadding;
-        }else if (row > (model.size() - 1) - cellpadding){
+        } else if (row > (model.size() - 1) - cellpadding) {
             currentRow = (model.size() - 1) - cellpadding;
-        }else{
+        } else {
             currentRow = row;
         }
     }
 
     public void setCurrentCol(int col) {
-        if (col < cellpadding){
+        if (col < cellpadding) {
             currentCol = cellpadding;
-        }else if (col > (model.size() - 1) - cellpadding){
+        } else if (col > (model.size() - 1) - cellpadding) {
             currentCol = (model.size() - 1) - cellpadding;
-        }else{
+        } else {
             currentCol = col;
         }
     }
@@ -62,48 +62,48 @@ public class GameView extends Canvas{
     public void draw() {
         GraphicsContext g = super.getGraphicsContext2D();
 
-        cellspan = zoom ? model.size() : 5;  //5x5 default view        
-        final int size = DEFAULT_VIEW_SIZE/cellspan;
+        cellspan = zoom ? model.size() : 5;  //5x5 default view
+        final int size = DEFAULT_VIEW_SIZE / cellspan;
 
         g.setFill(BACKGROUND_COLOUR);
         g.fillRect(0, 0, GameView.DEFAULT_VIEW_SIZE, GameView.DEFAULT_VIEW_SIZE);
 
-        for(int row = 0; row < cellspan; row++) {
-            for (int col = 0; col < cellspan; col++){
+        for (int row = 0; row < cellspan; row++) {
+            for (int col = 0; col < cellspan; col++) {
                 int x1 = col * size;
                 int y1 = row * size;
 
                 char ch = model.get(row, col);
-                if (zoom){
+                if (zoom) {
                     if (ch > '0') {
                         g.setFill(row == currentRow && col == currentCol ? PLAYER_COLOUR : reds[rand.nextInt(reds.length)]);
                         g.fillRect(x1, y1, size, size);
                     }
-                }else{
+                } else {
                     ch = model.get(currentRow - cellpadding + row, currentCol - cellpadding + col);
                 }
 
                 imageIndex = (int) ch;
                 imageIndex -= OFFSET;
 
-                if (imageIndex < 0){
-                    g.setFill(BACKGROUND_COLOUR);//Empty cell
+                if (imageIndex < 0) {
+                    g.setFill(BACKGROUND_COLOUR); //Empty cell
                     g.fillRect(x1, y1, size, size);
-                }else if (imageIndex == 0){
-                    g.setFill(HEDGE_COLOUR);//Hedge is 0
+                } else if (imageIndex == 0) {
+                    g.setFill(HEDGE_COLOUR); //Hedge is 0
                     g.fillRect(x1, y1, size, size);
-                }else{
+                } else {
                     g.drawImage(sprites[imageIndex - 1].getNext(), x1, y1);
                 }
             }
         }
     }
 
-    public void toggleZoom(){
+    public void toggleZoom() {
         zoom = !zoom;
     }
 
-    public void setSprites(Sprite[] sprites){
+    public void setSprites(Sprite[] sprites) {
         this.sprites = sprites;
     }
 }
