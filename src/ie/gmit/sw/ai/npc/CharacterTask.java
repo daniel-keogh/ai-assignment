@@ -1,7 +1,8 @@
-package ie.gmit.sw.ai;
+package ie.gmit.sw.ai.npc;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import ie.gmit.sw.ai.GameModel;
 import javafx.concurrent.Task;
 
 /*
@@ -97,6 +98,7 @@ public class CharacterTask extends Task<Void> {
                 }
             }
         }
+
         return null;
     }
 }

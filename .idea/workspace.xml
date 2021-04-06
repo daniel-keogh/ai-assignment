@@ -2,16 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7d6f5460-57ab-47f7-8c49-1a025157a069" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/Aggressor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/resources/fuzzy/game.fcl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/ChaseBehaviour.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/Patrol.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/CharacterTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/CharacterTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/CharacterTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/CharacterTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/Command.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/GameModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/GameView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/GameWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/GameWindow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/Runner.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/Sprite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/Sprite.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/module-info.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +48,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
@@ -59,7 +61,7 @@
       <module name="ai-assignment" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="ie.gmit.sw.ai.*" />
+          <option name="PATTERN" value="ie.gmit.sw.ai.npc.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -100,7 +102,10 @@
       <workItem from="1617112145660" duration="618000" />
       <workItem from="1617116873478" duration="4308000" />
       <workItem from="1617208076829" duration="1402000" />
-      <workItem from="1617272865455" duration="12871000" />
+      <workItem from="1617272865455" duration="16306000" />
+      <workItem from="1617356332928" duration="17525000" />
+      <workItem from="1617451790899" duration="5410000" />
+      <workItem from="1617703674113" duration="9944000" />
     </task>
     <servers />
   </component>

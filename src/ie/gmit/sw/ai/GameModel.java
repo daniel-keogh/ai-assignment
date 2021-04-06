@@ -6,6 +6,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 
+import ie.gmit.sw.ai.npc.CharacterTask;
+import ie.gmit.sw.ai.npc.Patrol;
 import javafx.concurrent.Task;
 
 /*
@@ -20,8 +22,8 @@ import javafx.concurrent.Task;
  */
 public class GameModel {
     private static final int MAX_CHARACTERS = 10;
-    private ThreadLocalRandom rand = ThreadLocalRandom.current();
-    private char[][] model;
+    private final ThreadLocalRandom rand = ThreadLocalRandom.current();
+    private final char[][] model;
 
     private final ExecutorService exec = Executors.newFixedThreadPool(MAX_CHARACTERS, e -> {
         Thread t = new Thread(e);
@@ -40,18 +42,22 @@ public class GameModel {
         exec.shutdownNow();
     }
 
-    /*
+    public String status() {
+        return "Player health: 100";
+    }
+
+    /**
      * Initialises the game model by creating an n x m array filled with hedge
      */
     private void init() {
         for (int row = 0; row < model.length; row++) {
             for (int col = 0; col < model[row].length; col++) {
-                model[row][col] = '\u0030'; //\u0030 = 0x30 = 0 (base 10) = A hedge
+                model[row][col] = '\u0030'; // \u0030 = 0x30 = 0 (base 10) = A hedge
             }
         }
     }
 
-    /*
+    /**
      * Carve paths through the hedge to create passages.
      */
     public void carve() {
@@ -93,7 +99,7 @@ public class GameModel {
                  * IMPORTANT! Change the following to parameterise your CharacterTask with an instance of
                  * Command. The constructor call below is only parameterised with a lambda expression.
                  */
-                tasks.add(new CharacterTask(this, enemyID, row, col, () -> System.out.println("Action executing!")));
+                tasks.add(new CharacterTask(this, enemyID, row, col, new Patrol(enemyID, this)));
                 counter++;
             }
         }

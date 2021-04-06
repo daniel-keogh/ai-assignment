@@ -13,20 +13,21 @@ import javafx.util.Duration;
 /*
  * [WARNING] Don't mess with this class unless you know exactly what you're at...
  */
-public class GameView extends Canvas{
+public class GameView extends Canvas {
     public static final int DEFAULT_VIEW_SIZE = 600;
     private static final Color PLAYER_COLOUR = Color.YELLOW;
     private static final Color BACKGROUND_COLOUR = Color.GREY;
     private static final Color HEDGE_COLOUR = Color.GREEN;
-    private Color[] reds = {Color.SALMON, Color.CRIMSON, Color.RED}; //Animate enemy "dots" to make them easier to see
-    private static final int OFFSET = 48; //The number 0 is ASCII 48.
-    private static ThreadLocalRandom rand = ThreadLocalRandom.current();
+    private final Color[] reds = { Color.SALMON, Color.CRIMSON, Color.RED }; // Animate enemy "dots" to make them easier to see
+    private static final int OFFSET = 48; // The number 0 is ASCII 48
+    private static final ThreadLocalRandom rand = ThreadLocalRandom.current();
+
+    private final GameModel model;
     private int currentRow;
     private int currentCol;
     private boolean zoom = false;
     private int cellspan = 5;
     private int cellpadding = 2;
-    private GameModel model;
     private Sprite[] sprites;
     private int imageIndex = -1;
 
@@ -62,7 +63,7 @@ public class GameView extends Canvas{
     public void draw() {
         GraphicsContext g = super.getGraphicsContext2D();
 
-        cellspan = zoom ? model.size() : 5;  //5x5 default view
+        cellspan = zoom ? model.size() : 5;  // 5x5 default view
         final int size = DEFAULT_VIEW_SIZE / cellspan;
 
         g.setFill(BACKGROUND_COLOUR);
@@ -87,10 +88,10 @@ public class GameView extends Canvas{
                 imageIndex -= OFFSET;
 
                 if (imageIndex < 0) {
-                    g.setFill(BACKGROUND_COLOUR); //Empty cell
+                    g.setFill(BACKGROUND_COLOUR); // Empty cell
                     g.fillRect(x1, y1, size, size);
                 } else if (imageIndex == 0) {
-                    g.setFill(HEDGE_COLOUR); //Hedge is 0
+                    g.setFill(HEDGE_COLOUR); // Hedge is 0
                     g.fillRect(x1, y1, size, size);
                 } else {
                     g.drawImage(sprites[imageIndex - 1].getNext(), x1, y1);
