@@ -2,6 +2,8 @@ package ie.gmit.sw.ai;
 
 import javafx.scene.image.Image;
 
+import java.util.Objects;
+
 /**
  * Sprite container for the game.
  */
@@ -15,8 +17,9 @@ public class Sprite {
         this.index = 0;                          // Initialise the starting index to zero
         this.frames = new Image[images.length];  // Initialise the image frames
 
+        // Read in each image as a BufferedImage
         for (int i = 0; i < images.length; i++){
-            frames[i] = new Image(getClass().getResource(images[i]).toString()); // Read in each image as a BufferedImage
+            frames[i] = new Image(Objects.requireNonNull(getClass().getResource(images[i])).toString());
         }
     }
 

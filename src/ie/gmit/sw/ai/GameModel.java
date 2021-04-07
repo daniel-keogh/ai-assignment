@@ -11,16 +11,6 @@ import ie.gmit.sw.ai.npc.CharacterTask;
 import ie.gmit.sw.ai.npc.Patrol;
 import javafx.concurrent.Task;
 
-/*
- * [READ THIS CAREFULLY]
- * You will need to change the method addGameCharacter() below and configure each
- * instance of CharacterTask with a Command object. The implementation below uses
- * a lambda expression ()-> System.out.println("Action executing!") as the default
- * logic for the execute() method.
- *
- * [WARNING] Don't mess with anything else in this class unless you know exactly
- * what you're at... If you break it, you own it.
- */
 public class GameModel {
     private static final int MAX_CHARACTERS = 10;
     private final ThreadLocalRandom rand = ThreadLocalRandom.current();
@@ -80,11 +70,11 @@ public class GameModel {
 
     private void addGameCharacters() {
         Collection<Task<Void>> tasks = new ArrayList<>();
-        addGameCharacter(tasks, '\u0032', '0', 1); // 2 is a Red Enemy, 0 is a hedge
-//        addGameCharacter(tasks, '\u0033', '0', MAX_CHARACTERS / 5); // 3 is a Pink Enemy, 0 is a hedge
-//        addGameCharacter(tasks, '\u0034', '0', MAX_CHARACTERS / 5); // 4 is a Blue Enemy, 0 is a hedge
-//        addGameCharacter(tasks, '\u0035', '0', MAX_CHARACTERS / 5); // 5 is a Red Green Enemy, 0 is a hedge
-//        addGameCharacter(tasks, '\u0036', '0', MAX_CHARACTERS / 5); // 6 is a Orange Enemy, 0 is a hedge
+        addGameCharacter(tasks, '\u0032', '0', 1);                  // 2 is a Red Enemy, 0 is a hedge
+        addGameCharacter(tasks, '\u0033', '0', MAX_CHARACTERS / 5); // 3 is a Pink Enemy, 0 is a hedge
+        addGameCharacter(tasks, '\u0034', '0', MAX_CHARACTERS / 5); // 4 is a Blue Enemy, 0 is a hedge
+        addGameCharacter(tasks, '\u0035', '0', MAX_CHARACTERS / 5); // 5 is a Red Green Enemy, 0 is a hedge
+        addGameCharacter(tasks, '\u0036', '0', MAX_CHARACTERS / 5); // 6 is a Orange Enemy, 0 is a hedge
         tasks.forEach(exec::execute);
     }
 
@@ -97,11 +87,7 @@ public class GameModel {
             if (model[row][col] == replace) {
                 model[row][col] = enemyID;
 
-                /*
-                 * IMPORTANT! Change the following to parameterise your CharacterTask with an instance of
-                 * Command. The constructor call below is only parameterised with a lambda expression.
-                 */
-                tasks.add(new CharacterTask(this, enemyID, row, col, new Patrol(enemyID, this)));
+                tasks.add(new CharacterTask(this, new Patrol(enemyID, this)));
                 counter++;
             }
         }

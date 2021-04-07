@@ -11,7 +11,7 @@ import net.sourceforge.jFuzzyLogic.FIS;
 import net.sourceforge.jFuzzyLogic.FunctionBlock;
 import net.sourceforge.jFuzzyLogic.rule.Variable;
 
-import java.util.Random;
+import java.util.Optional;
 import java.util.Stack;
 
 public class Patrol implements Command {
@@ -26,12 +26,11 @@ public class Patrol implements Command {
     private int currentRow;
     private int currentCol;
     private int energy = 100;
+    private int energyDelta = 5;
 
     private final char enemyId;
     private final GameModel model;
-    private int energyDelta = 5;
-
-    private final Random rand = new Random();
+    private final int[][] modelAsIntArray;
 
     private Point target = null;
     private Stack<Node> route = new Stack<>();
@@ -50,6 +49,7 @@ public class Patrol implements Command {
     public Patrol(char enemyId, GameModel model) {
         this.enemyId = enemyId;
         this.model = model;
+        this.modelAsIntArray = ModelUtils.toIntArray(model.getModel());
     }
 
     public Patrol(char enemyId, GameModel model, int energyDelta) {
@@ -74,11 +74,13 @@ public class Patrol implements Command {
             Point p = new Point(player.getCurrentRow(), player.getCurrentCol());
             Point c = new Point(currentRow, currentCol);
 
-            BFS bfs = new BFS(model.getModel().length, model.getModel()[0].length);
-            Node node = bfs.search(ModelUtils.toIntArray(model.getModel()), c, p);
+            Optional<Node> targetNote = new BFS().search(modelAsIntArray, c, p);
 
-            target = node.point();
-            route = node.toRoute();
+            if (targetNote.isPresent()) {
+                Node node = targetNote.get();
+                target = node.point();
+                route = node.toRoute();
+            }
         }
 
         Aggression a = Aggression.valueOf(aggression);
@@ -105,8 +107,6 @@ public class Patrol implements Command {
                 model.set(currentRow, currentCol, GameModel.PATH);
                 currentCol = next.point().column();
                 currentRow = next.point().row();
-            } else {
-                System.out.println("asdsda");
             }
         }
     }

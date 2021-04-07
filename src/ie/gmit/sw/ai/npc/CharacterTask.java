@@ -33,12 +33,8 @@ import javafx.concurrent.Task;
  */
 public class CharacterTask extends Task<Void> {
     private static final int SLEEP_TIME = 300; // Sleep for 300 ms
-    private static ThreadLocalRandom rand = ThreadLocalRandom.current();
     private boolean alive = true;
     private final GameModel model;
-    private char enemyID;
-    private int row;
-    private int col;
 
     /*
      * Configure each character with its own action. Use this functional interface
@@ -46,13 +42,10 @@ public class CharacterTask extends Task<Void> {
      * method execute() of Command will execute when the Character cannot move to
      * a random adjacent cell.
      */
-    private Command cmd;
+    private final Command cmd;
 
-    public CharacterTask(GameModel model, char enemyID, int row, int col, Command cmd) {
+    public CharacterTask(GameModel model, Command cmd) {
         this.model = model;
-        this.enemyID = enemyID;
-        this.row = row;
-        this.col = col;
         this.cmd = cmd;
     }
 
@@ -68,33 +61,7 @@ public class CharacterTask extends Task<Void> {
             Thread.sleep(SLEEP_TIME);
 
             synchronized (model) {
-                // Randomly pick a direction up, down, left or right
-//                int temp_row = row, temp_col = col;
-//                if (rand.nextBoolean()) {
-//                    temp_row += rand.nextBoolean() ? 1 : -1;
-//                } else {
-//                    temp_col += rand.nextBoolean() ? 1 : -1;
-//                }
-//
-//                if (model.isValidMove(row, col, temp_row, temp_col, enemyID)) {
-//                    /*
-//                     * This fires if the character can move to a cell, i.e. if it is not
-//                     * already occupied. You can add extra logic here to invoke
-//                     * behaviour when the computer controlled character is in the proximity
-//                     * of the player or another character...
-//                     */
-//                    model.set(temp_row, temp_col, enemyID);
-//                    model.set(row, col, '\u0020');
-//                    row = temp_row;
-//                    col = temp_col;
-//                } else {
-                    /*
-                     * This fires if a move is not valid, i.e. if someone or some thing
-                     * is in the way. Use implementations of Command to control how the
-                     * computer controls this character.
-                     */
-                    cmd.execute();
-//                }
+                cmd.execute();
             }
         }
 

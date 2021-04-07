@@ -10,28 +10,24 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
-/*
- * [WARNING] Don't mess with this class unless you know exactly what you're at...
- */
 public class GameView extends Canvas {
     public static final int DEFAULT_VIEW_SIZE = 600;
-    private static final Color PLAYER_COLOUR = Color.YELLOW;
-    private static final Color BACKGROUND_COLOUR = Color.GREY;
-    private static final Color HEDGE_COLOUR = Color.GREEN;
-    private final Color[] reds = { Color.SALMON, Color.CRIMSON, Color.RED }; // Animate enemy "dots" to make them easier to see
     private static final int OFFSET = 48; // The number 0 is ASCII 48
     private static final ThreadLocalRandom rand = ThreadLocalRandom.current();
 
+    private static final Color PLAYER_COLOUR = Color.YELLOW;
+    private static final Color BACKGROUND_COLOUR = Color.GREY;
+    private static final Color HEDGE_COLOUR = Color.GREEN;
+    private final Color[] reds = {Color.SALMON, Color.CRIMSON, Color.RED}; // Animate enemy "dots" to make them easier to see
+
+    private final int cellPadding = 2;
     private final GameModel model;
     private final Player player;
 
     private int currentRow;
     private int currentCol;
     private boolean zoom = false;
-    private int cellspan = 5;
-    private int cellpadding = 2;
     private Sprite[] sprites;
-    private int imageIndex = -1;
 
     public GameView(GameModel model) {
         super(DEFAULT_VIEW_SIZE, DEFAULT_VIEW_SIZE);
@@ -44,23 +40,19 @@ public class GameView extends Canvas {
     }
 
     public void setCurrentRow(int row) {
-        if (row < cellpadding) {
-            currentRow = cellpadding;
-        } else if (row > (model.size() - 1) - cellpadding) {
-            currentRow = (model.size() - 1) - cellpadding;
+        if (row < cellPadding) {
+            currentRow = cellPadding;
         } else {
-            currentRow = row;
+            currentRow = Math.min(row, (model.size() - 1) - cellPadding);
         }
         player.setCurrentRow(currentRow);
     }
 
     public void setCurrentCol(int col) {
-        if (col < cellpadding) {
-            currentCol = cellpadding;
-        } else if (col > (model.size() - 1) - cellpadding) {
-            currentCol = (model.size() - 1) - cellpadding;
+        if (col < cellPadding) {
+            currentCol = cellPadding;
         } else {
-            currentCol = col;
+            currentCol = Math.min(col, (model.size() - 1) - cellPadding);
         }
         player.setCurrentCol(currentCol);
     }
@@ -68,7 +60,7 @@ public class GameView extends Canvas {
     public void draw() {
         GraphicsContext g = super.getGraphicsContext2D();
 
-        cellspan = zoom ? model.size() : 5;  // 5x5 default view
+        int cellspan = zoom ? model.size() : 5;  // 5x5 default view
         final int size = DEFAULT_VIEW_SIZE / cellspan;
 
         g.setFill(BACKGROUND_COLOUR);
@@ -86,10 +78,10 @@ public class GameView extends Canvas {
                         g.fillRect(x1, y1, size, size);
                     }
                 } else {
-                    ch = model.get(currentRow - cellpadding + row, currentCol - cellpadding + col);
+                    ch = model.get(currentRow - cellPadding + row, currentCol - cellPadding + col);
                 }
 
-                imageIndex = (int) ch;
+                int imageIndex = ch;
                 imageIndex -= OFFSET;
 
                 if (imageIndex < 0) {
