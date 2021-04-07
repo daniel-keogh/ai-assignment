@@ -1,6 +1,7 @@
 package ie.gmit.sw.ai;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -25,6 +26,9 @@ public class GameModel {
     private final ThreadLocalRandom rand = ThreadLocalRandom.current();
     private final char[][] model;
 
+    public static final char HEDGE = '\u0030'; // \u0030 = 0x30 = 0 (base 10) = A hedge
+    public static final char PATH = '\u0020';
+
     private final ExecutorService exec = Executors.newFixedThreadPool(MAX_CHARACTERS, e -> {
         Thread t = new Thread(e);
         t.setDaemon(true);
@@ -47,13 +51,11 @@ public class GameModel {
     }
 
     /**
-     * Initialises the game model by creating an n x m array filled with hedge
+     * Initialises the game model by creating an n row m array filled with hedge
      */
     private void init() {
-        for (int row = 0; row < model.length; row++) {
-            for (int col = 0; col < model[row].length; col++) {
-                model[row][col] = '\u0030'; // \u0030 = 0x30 = 0 (base 10) = A hedge
-            }
+        for (char[] chars : model) {
+            Arrays.fill(chars, HEDGE);
         }
     }
 
@@ -64,13 +66,13 @@ public class GameModel {
         for (int row = 0; row < model.length; row++) {
             for (int col = 0; col < model[row].length - 1; col++) {
                 if (row == 0) {
-                    model[row][col + 1] = '\u0020';
+                    model[row][col + 1] = PATH;
                 } else if (col == model.length - 1) {
-                    model[row - 1][col] = '\u0020';
+                    model[row - 1][col] = PATH;
                 } else if (rand.nextBoolean()) {
-                    model[row][col + 1] = '\u0020';
+                    model[row][col + 1] = PATH;
                 } else {
-                    model[row - 1][col] = '\u0020';
+                    model[row - 1][col] = PATH;
                 }
             }
         }
