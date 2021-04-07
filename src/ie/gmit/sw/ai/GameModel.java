@@ -78,11 +78,11 @@ public class GameModel {
 
     private void addGameCharacters() {
         Collection<Task<Void>> tasks = new ArrayList<>();
-        addGameCharacter(tasks, '\u0032', '0', MAX_CHARACTERS / 5); // 2 is a Red Enemy, 0 is a hedge
-        addGameCharacter(tasks, '\u0033', '0', MAX_CHARACTERS / 5); // 3 is a Pink Enemy, 0 is a hedge
-        addGameCharacter(tasks, '\u0034', '0', MAX_CHARACTERS / 5); // 4 is a Blue Enemy, 0 is a hedge
-        addGameCharacter(tasks, '\u0035', '0', MAX_CHARACTERS / 5); // 5 is a Red Green Enemy, 0 is a hedge
-        addGameCharacter(tasks, '\u0036', '0', MAX_CHARACTERS / 5); // 6 is a Orange Enemy, 0 is a hedge
+        addGameCharacter(tasks, '\u0032', '0', 1); // 2 is a Red Enemy, 0 is a hedge
+//        addGameCharacter(tasks, '\u0033', '0', MAX_CHARACTERS / 5); // 3 is a Pink Enemy, 0 is a hedge
+//        addGameCharacter(tasks, '\u0034', '0', MAX_CHARACTERS / 5); // 4 is a Blue Enemy, 0 is a hedge
+//        addGameCharacter(tasks, '\u0035', '0', MAX_CHARACTERS / 5); // 5 is a Red Green Enemy, 0 is a hedge
+//        addGameCharacter(tasks, '\u0036', '0', MAX_CHARACTERS / 5); // 6 is a Orange Enemy, 0 is a hedge
         tasks.forEach(exec::execute);
     }
 

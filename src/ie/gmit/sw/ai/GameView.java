@@ -23,6 +23,8 @@ public class GameView extends Canvas {
     private static final ThreadLocalRandom rand = ThreadLocalRandom.current();
 
     private final GameModel model;
+    private final Player player;
+
     private int currentRow;
     private int currentCol;
     private boolean zoom = false;
@@ -31,9 +33,10 @@ public class GameView extends Canvas {
     private Sprite[] sprites;
     private int imageIndex = -1;
 
-    public GameView(GameModel model) throws Exception {
+    public GameView(GameModel model) {
         super(DEFAULT_VIEW_SIZE, DEFAULT_VIEW_SIZE);
         this.model = model;
+        this.player = Player.getInstance();
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(300), e -> draw()));
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -48,6 +51,7 @@ public class GameView extends Canvas {
         } else {
             currentRow = row;
         }
+        player.setCurrentRow(currentRow);
     }
 
     public void setCurrentCol(int col) {
@@ -58,6 +62,7 @@ public class GameView extends Canvas {
         } else {
             currentCol = col;
         }
+        player.setCurrentCol(currentCol);
     }
 
     public void draw() {

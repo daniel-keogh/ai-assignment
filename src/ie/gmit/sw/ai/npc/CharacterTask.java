@@ -31,9 +31,8 @@ import javafx.concurrent.Task;
  *      	//Implementation for moving to an unoccupied cell
  *      }
  */
-
 public class CharacterTask extends Task<Void> {
-    private static final int SLEEP_TIME = 300; //Sleep for 300 ms
+    private static final int SLEEP_TIME = 300; // Sleep for 300 ms
     private static ThreadLocalRandom rand = ThreadLocalRandom.current();
     private boolean alive = true;
     private GameModel model;
