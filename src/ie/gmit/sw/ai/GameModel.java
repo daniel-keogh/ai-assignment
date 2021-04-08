@@ -3,12 +3,14 @@ package ie.gmit.sw.ai;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 
 import ie.gmit.sw.ai.npc.CharacterTask;
 import ie.gmit.sw.ai.npc.Npc;
+import ie.gmit.sw.ai.searching.Point;
 import javafx.concurrent.Task;
 
 public class GameModel {
@@ -83,7 +85,9 @@ public class GameModel {
             if (model[row][col] == replace) {
                 model[row][col] = enemyID;
 
-                tasks.add(new CharacterTask(this, new Npc(enemyID, row, col, this)));
+                Npc npc = new Npc(enemyID, row, col, this);
+                tasks.add(new CharacterTask(this, enemyID, npc));
+
                 counter++;
             }
         }
@@ -139,5 +143,16 @@ public class GameModel {
         }
 
         return matrix;
+    }
+
+    public Optional<Point> getPositionById(char id) {
+        for (int i = 0; i < model.length; i++) {
+            for (int j = 0; j < model[i].length; j++) {
+                if (model[i][j] == id) {
+                    return Optional.of(new Point(i, j));
+                }
+            }
+        }
+        return Optional.empty();
     }
 }

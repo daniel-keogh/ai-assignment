@@ -12,7 +12,7 @@ public class Sprite {
     private final Image[] frames;  // The set of image frames to animate
     private int index;             // Initial starting index in array
 
-    public Sprite(String name, String... images) throws Exception {
+    public Sprite(String name, String... images) {
         this.name = name;
         this.index = 0;                          // Initialise the starting index to zero
         this.frames = new Image[images.length];  // Initialise the image frames

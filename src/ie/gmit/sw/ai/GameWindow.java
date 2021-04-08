@@ -30,9 +30,10 @@ public class GameWindow extends Application {
 
     private final Label statusText = new Label();
     private final Label durationText = new Label();
+    private final Timer timer = new Timer();
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         model = new GameModel(DEFAULT_SIZE); // Create a model
         view = new GameView(model);          // Create a view of the model
         player = Player.getInstance();
@@ -41,7 +42,10 @@ public class GameWindow extends Application {
         stage.setTitle("GMIT - B.Sc. in Computing (Software Development) - AI Assignment 2021");
         stage.setWidth(600);
         stage.setHeight(630);
-        stage.setOnCloseRequest((e) -> model.tearDown()); // Shut down the executor service
+        stage.setOnCloseRequest((e) -> {
+            model.tearDown();   // Shut down the executor service
+            timer.cancel();     // Stop the toolbar timer
+        });
 
         VBox box = new VBox();
         Scene scene = new Scene(box);
@@ -69,7 +73,7 @@ public class GameWindow extends Application {
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
         // Schedule the status bar to update every second
-        new Timer().scheduleAtFixedRate(new TimerTask() {
+        timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 refreshStatusBar();
@@ -138,7 +142,7 @@ public class GameWindow extends Application {
      * referenced by its index in the array, e.g. a 3 implies a Pink Enemy...
      * Ideally, the array should be dynamically created from the images...
      */
-    private Sprite[] getSprites() throws Exception {
+    private Sprite[] getSprites() {
         Sprite[] sprites = new Sprite[IMAGE_COUNT];
         sprites[0] = new Sprite("Player", "/res/player-0.png", "/res/player-1.png", "/res/player-2.png", "/res/player-3.png", "/res/player-4.png", "/res/player-5.png", "/res/player-6.png", "/res/player-7.png");
         sprites[1] = new Sprite("Red Enemy", "/res/red-0.png", "/res/red-1.png", "/res/red-2.png", "/res/red-3.png", "/res/red-4.png", "/res/red-5.png", "/res/red-6.png", "/res/red-7.png");

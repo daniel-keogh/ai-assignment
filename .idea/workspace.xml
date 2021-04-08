@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7d6f5460-57ab-47f7-8c49-1a025157a069" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/NpcAttack.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/GameModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/GameWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/GameWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/Patrol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/Npc.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/utils/ModelUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/Sprite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/Sprite.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/CharacterTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/CharacterTask.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
