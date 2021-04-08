@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 
 import ie.gmit.sw.ai.npc.CharacterTask;
-import ie.gmit.sw.ai.npc.Patrol;
+import ie.gmit.sw.ai.npc.Npc;
 import javafx.concurrent.Task;
 
 public class GameModel {
@@ -34,10 +34,6 @@ public class GameModel {
 
     public void tearDown() {
         exec.shutdownNow();
-    }
-
-    public String status() {
-        return "Player health: 100";
     }
 
     /**
@@ -70,7 +66,7 @@ public class GameModel {
 
     private void addGameCharacters() {
         Collection<Task<Void>> tasks = new ArrayList<>();
-        addGameCharacter(tasks, '\u0032', '0', 1);                  // 2 is a Red Enemy, 0 is a hedge
+        addGameCharacter(tasks, '\u0032', '0', MAX_CHARACTERS / 5); // 2 is a Red Enemy, 0 is a hedge
         addGameCharacter(tasks, '\u0033', '0', MAX_CHARACTERS / 5); // 3 is a Pink Enemy, 0 is a hedge
         addGameCharacter(tasks, '\u0034', '0', MAX_CHARACTERS / 5); // 4 is a Blue Enemy, 0 is a hedge
         addGameCharacter(tasks, '\u0035', '0', MAX_CHARACTERS / 5); // 5 is a Red Green Enemy, 0 is a hedge
@@ -87,7 +83,7 @@ public class GameModel {
             if (model[row][col] == replace) {
                 model[row][col] = enemyID;
 
-                tasks.add(new CharacterTask(this, new Patrol(enemyID, this)));
+                tasks.add(new CharacterTask(this, new Npc(enemyID, row, col, this)));
                 counter++;
             }
         }
@@ -117,5 +113,31 @@ public class GameModel {
 
     public int size() {
         return this.model.length;
+    }
+
+    /**
+     * Converts the game model from a 2D char array to a 2D int array,
+     * where 1 is a path and 0 is a hedge.
+     *
+     * @return The model as a 2D array of integers
+     */
+    public int[][] toIntArray() {
+        if (model.length == 0 || model[0].length == 0) {
+            throw new IllegalArgumentException("model cannot be empty");
+        }
+
+        int[][] matrix = new int[model.length][model[0].length];
+
+        for (int i = 0; i < model.length; i++) {
+            for (int j = 0; j < model[i].length; j++) {
+                if (model[i][j] == GameModel.HEDGE) {
+                    matrix[i][j] = 0;
+                } else {
+                    matrix[i][j] = 1;
+                }
+            }
+        }
+
+        return matrix;
     }
 }

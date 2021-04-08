@@ -6,22 +6,21 @@ import ie.gmit.sw.ai.searching.BFS;
 import ie.gmit.sw.ai.searching.Node;
 import ie.gmit.sw.ai.searching.Point;
 import ie.gmit.sw.ai.utils.Maths;
-import ie.gmit.sw.ai.utils.ModelUtils;
 import net.sourceforge.jFuzzyLogic.FIS;
 import net.sourceforge.jFuzzyLogic.FunctionBlock;
 import net.sourceforge.jFuzzyLogic.rule.Variable;
 
 import java.util.Optional;
 import java.util.Stack;
+import java.util.concurrent.ThreadLocalRandom;
 
-public class Patrol implements Command {
+public class Npc implements Command {
 
-    private static final String FCL_FILE = "./src/resources/fuzzy/patrol.fcl";
     private static final int MAX_ENERGY = 100;
     private static final int MAX_DISTANCE = 100;
-
+    private static final ThreadLocalRandom rand = ThreadLocalRandom.current();
+    private static final String FCL_FILE = "./src/resources/fuzzy/patrol.fcl";
     private static final FIS fis;
-    private static final Player player;
 
     private int currentRow;
     private int currentCol;
@@ -31,6 +30,7 @@ public class Patrol implements Command {
     private final char enemyId;
     private final GameModel model;
     private final int[][] modelAsIntArray;
+    private final Player player;
 
     private Point target = null;
     private Stack<Node> route = new Stack<>();
@@ -39,21 +39,22 @@ public class Patrol implements Command {
         fis = FIS.load(FCL_FILE, true);
 
         if (fis == null) {
-            System.err.println("[Error] Unable to load FCL file.");
+            System.err.println("[Error] Unable to load FCL file: " + FCL_FILE);
             System.exit(1);
         }
+    }
 
+    public Npc(char enemyId, int startRow, int startCol, GameModel model) {
+        this.enemyId = enemyId;
+        this.model = model;
+        this.modelAsIntArray = model.toIntArray();
+        this.currentRow = startRow;
+        this.currentCol = startCol;
         player = Player.getInstance();
     }
 
-    public Patrol(char enemyId, GameModel model) {
-        this.enemyId = enemyId;
-        this.model = model;
-        this.modelAsIntArray = ModelUtils.toIntArray(model.getModel());
-    }
-
-    public Patrol(char enemyId, GameModel model, int energyDelta) {
-        this(enemyId, model);
+    public Npc(char enemyId, int startRow, int startCol, GameModel model, int energyDelta) {
+        this(enemyId, startRow, startCol, model);
         this.energyDelta = energyDelta;
     }
 
@@ -87,27 +88,32 @@ public class Patrol implements Command {
     }
 
     private void setCurrentPosition() {
+        int temp_row;
+        int temp_col;
+
         if (route.isEmpty()) {
             target = null;
 
-            char[][] model = this.model.getModel();
+            //Randomly pick a direction up, down, left or right
+            temp_row = currentRow;
+            temp_col = currentCol;
 
-            for (int i = 0; i < model.length; i++) {
-                for (int j = 0; j < model[0].length; j++) {
-                    if (model[i][j] == enemyId) {
-                        currentRow = i;
-                        currentCol = j;
-                    }
-                }
+            if (rand.nextBoolean()) {
+                temp_row += rand.nextBoolean() ? 1 : -1;
+            } else {
+                temp_col += rand.nextBoolean() ? 1 : -1;
             }
         } else {
             Node next = route.pop();
-            if (model.isValidMove(currentRow, currentCol, next.point().row(), next.point().column(), enemyId)) {
-                model.set(next.point().row(), next.point().column(), enemyId);
-                model.set(currentRow, currentCol, GameModel.PATH);
-                currentCol = next.point().column();
-                currentRow = next.point().row();
-            }
+            temp_row = next.point().row();
+            temp_col = next.point().column();
+        }
+
+        if (model.isValidMove(currentRow, currentCol, temp_row, temp_col, enemyId)) {
+            model.set(temp_row, temp_col, enemyId);
+            model.set(currentRow, currentCol, GameModel.PATH);
+            currentCol = temp_col;
+            currentRow = temp_row;
         }
     }
 

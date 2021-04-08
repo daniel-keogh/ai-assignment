@@ -1,13 +1,17 @@
 package ie.gmit.sw.ai;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Main UI for the game.
@@ -17,15 +21,22 @@ public class GameWindow extends Application {
     private static final int DEFAULT_SIZE = 60;
     private static final int IMAGE_COUNT = 6;
 
+    private Player player;
     private GameView view;
     private GameModel model;
     private int currentRow;
     private int currentCol;
+    private double startTime;
+
+    private final Label statusText = new Label();
+    private final Label durationText = new Label();
 
     @Override
     public void start(Stage stage) throws Exception {
         model = new GameModel(DEFAULT_SIZE); // Create a model
         view = new GameView(model);          // Create a view of the model
+        player = Player.getInstance();
+        startTime = System.currentTimeMillis();
 
         stage.setTitle("GMIT - B.Sc. in Computing (Software Development) - AI Assignment 2021");
         stage.setWidth(600);
@@ -53,9 +64,36 @@ public class GameWindow extends Application {
 
     private ToolBar getToolbar() {
         ToolBar toolBar = new ToolBar();
-        Label label = new Label(model.status());
-        toolBar.getItems().add(label);
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        // Schedule the status bar to update every second
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                refreshStatusBar();
+            }
+        }, 0, 1000);
+
+        toolBar.getItems().add(statusText);
+        toolBar.getItems().add(spacer);
+        toolBar.getItems().add(durationText);
+
         return toolBar;
+    }
+
+    /**
+     * Refreshes the labels in the window's status bar with the player's current health & duration of play.
+     */
+    private void refreshStatusBar() {
+        Platform.runLater(() -> {
+            String duration = String.format("Time: %.0f (s)", (System.currentTimeMillis() - startTime) / 1000);
+            String health = "Player health: " + player.getHealth();
+
+            durationText.setText(duration);
+            statusText.setText(health);
+        });
     }
 
     /**
