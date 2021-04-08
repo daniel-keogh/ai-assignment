@@ -1,5 +1,6 @@
 package ie.gmit.sw.ai;
 
+import ie.gmit.sw.ai.npc.ChaseBehaviour;
 import javafx.application.Application;
 
 /**
@@ -7,6 +8,7 @@ import javafx.application.Application;
  */
 public class Runner {
     public static void main(String[] args) {
-        Application.launch(GameWindow.class, args);
+        ChaseBehaviour.train();
+//        Application.launch(GameWindow.class, args);
     }
 }

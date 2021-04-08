@@ -35,6 +35,8 @@ public class Npc implements Command {
     private Point target = null;
     private Stack<Node> route = new Stack<>();
 
+    private final NpcAttack npcAttack = new NpcAttack();
+
     static {
         fis = FIS.load(FCL_FILE, true);
 
@@ -71,6 +73,8 @@ public class Npc implements Command {
         double distance = Maths.distance(currentRow, currentCol, player.getCurrentRow(), player.getCurrentCol());
         double aggression = getAggression(distance, energy);
 
+        Aggression a = Aggression.valueOf(aggression);
+
         if (target == null) {
             Point p = new Point(player.getCurrentRow(), player.getCurrentCol());
             Point c = new Point(currentRow, currentCol);
@@ -84,7 +88,9 @@ public class Npc implements Command {
             }
         }
 
-        Aggression a = Aggression.valueOf(aggression);
+        if (distance <= 1) {
+            npcAttack.attack(energy);
+        }
     }
 
     private void setCurrentPosition() {

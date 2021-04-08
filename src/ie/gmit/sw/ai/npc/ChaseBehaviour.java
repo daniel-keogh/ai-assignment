@@ -12,7 +12,7 @@ import org.encog.neural.networks.training.propagation.resilient.ResilientPropaga
 
 public class ChaseBehaviour {
     // Health, Sword, Gun, Enemies
-    private final double[][] data = {
+    private static final double[][] data = {
             {2, 0, 0, 0}, {2, 0, 0, 1}, {2, 0, 1, 1},
             {2, 0, 1, 2}, {2, 1, 0, 2}, {2, 1, 0, 1},
             {1, 0, 0, 0}, {1, 0, 0, 1}, {1, 0, 1, 1},
@@ -22,7 +22,7 @@ public class ChaseBehaviour {
     };
 
     // Panic, Attack, Hide, Run
-    private final double[][] expected = {
+    private static final double[][] expected = {
             {0.0, 0.0, 1.0, 0.0}, {0.0, 0.0, 1.0, 0.0}, {1.0, 0.0, 0.0, 0.0},
             {1.0, 0.0, 0.0, 0.0}, {0.0, 0.0, 0.0, 1.0}, {1.0, 0.0, 0.0, 0.0},
             {0.0, 0.0, 1.0, 0.0}, {0.0, 0.0, 0.0, 1.0}, {1.0, 0.0, 0.0, 0.0},
@@ -31,8 +31,7 @@ public class ChaseBehaviour {
             {0.0, 1.0, 0.0, 0.0}, {0.0, 1.0, 0.0, 0.0}, {0.0, 0.0, 0.0, 1.0},
     };
 
-
-    public void train() {
+    public static void train() {
         //----------------------------------------------------
         // Step 1: Declare Network Topology
         //----------------------------------------------------
@@ -83,5 +82,21 @@ public class ChaseBehaviour {
         //----------------------------------------------------
         System.out.println("[INFO] Shutting down.");
         Encog.getInstance().shutdown();
+    }
+
+    public void rest() {
+
+    }
+
+    public void attack() {
+
+    }
+
+    public void flee() {
+
+    }
+
+    public void chase() {
+
     }
 }

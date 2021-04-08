@@ -4,9 +4,9 @@ public enum Aggression {
     CALM, ALERT, HIGH;
 
     public static Aggression valueOf(double value) {
-        if (value >= 60) {
+        if (value >= 70) {
             return HIGH;
-        } else if (value >= 20 && value < 60) {
+        } else if (value >= 40 && value < 70) {
             return ALERT;
         }
         return CALM;

@@ -7,7 +7,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.Timer;
@@ -42,14 +45,7 @@ public class GameWindow extends Application {
         stage.setTitle("GMIT - B.Sc. in Computing (Software Development) - AI Assignment 2021");
         stage.setWidth(600);
         stage.setHeight(630);
-        stage.setOnCloseRequest((e) -> {
-            if (player.getHealth() <= 0) {
-                System.out.printf("You died after %.0f seconds.\n", runtime());
-            }
-
-            model.tearDown();   // Shut down the executor service
-            timer.cancel();     // Stop the toolbar timer
-        });
+        stage.setOnCloseRequest((e) -> Platform.exit());
 
         VBox box = new VBox();
         Scene scene = new Scene(box);
@@ -68,6 +64,15 @@ public class GameWindow extends Application {
         // Display the window
         stage.show();
         stage.centerOnScreen();
+    }
+
+    @Override
+    public void stop() {
+        if (player.getHealth() <= 0) {
+            System.out.printf("You died after %.0f seconds.\n", runtime());
+        }
+        model.tearDown();   // Shut down the executor service
+        timer.cancel();     // Stop the toolbar timer
     }
 
     private ToolBar getToolbar() {
@@ -100,6 +105,10 @@ public class GameWindow extends Application {
         Platform.runLater(() -> {
             String duration = String.format("Time: %.0f (s)", runtime());
             String health = "Player health: " + player.getHealth();
+
+            if (player.getHealth() <= 0) {
+                Platform.exit();
+            }
 
             durationText.setText(duration);
             statusText.setText(health);

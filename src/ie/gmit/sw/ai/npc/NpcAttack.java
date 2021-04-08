@@ -1,6 +1,7 @@
 package ie.gmit.sw.ai.npc;
 
 import ie.gmit.sw.ai.Player;
+import ie.gmit.sw.ai.utils.Random;
 import net.sourceforge.jFuzzyLogic.FIS;
 import net.sourceforge.jFuzzyLogic.FunctionBlock;
 import net.sourceforge.jFuzzyLogic.rule.Variable;
@@ -12,6 +13,7 @@ public class NpcAttack {
     private static final int MAX_ENERGY = 100;
 
     private final Player player;
+    private final double strength;
 
     static {
         fis = FIS.load(FCL_FILE, true);
@@ -23,10 +25,15 @@ public class NpcAttack {
     }
 
     public NpcAttack() {
-        player = Player.getInstance();
+        this(Random.generate(1, MAX_STRENGTH));
     }
 
-    public void attack(double strength, double energy) {
+    public NpcAttack(double strength) {
+        player = Player.getInstance();
+        this.strength = strength;
+    }
+
+    public void attack(double energy) {
         double amt = getDamage(strength, energy);
         player.reduceHealth((int) amt);
     }
