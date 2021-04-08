@@ -1,5 +1,6 @@
 package ie.gmit.sw.ai.npc;
 
+import ie.gmit.sw.ai.Player;
 import net.sourceforge.jFuzzyLogic.FIS;
 import net.sourceforge.jFuzzyLogic.FunctionBlock;
 import net.sourceforge.jFuzzyLogic.rule.Variable;
@@ -10,6 +11,8 @@ public class NpcAttack {
     private static final int MAX_STRENGTH = 100;
     private static final int MAX_ENERGY = 100;
 
+    private final Player player;
+
     static {
         fis = FIS.load(FCL_FILE, true);
 
@@ -19,7 +22,16 @@ public class NpcAttack {
         }
     }
 
-    public double getDamage(double strength, double energy) {
+    public NpcAttack() {
+        player = Player.getInstance();
+    }
+
+    public void attack(double strength, double energy) {
+        double amt = getDamage(strength, energy);
+        player.reduceHealth((int) amt);
+    }
+
+    private double getDamage(double strength, double energy) {
         if (strength > MAX_STRENGTH || strength < 0) {
             throw new IllegalArgumentException("strength must be <= " + MAX_STRENGTH + " and > 0");
         }
@@ -27,7 +39,7 @@ public class NpcAttack {
             throw new IllegalArgumentException("energy must be <= " + MAX_ENERGY + " and > 0");
         }
 
-        FunctionBlock fb = fis.getFunctionBlock("getAggression");
+        FunctionBlock fb = fis.getFunctionBlock("getDamage");
 
 //        JFuzzyChart.get().chart(fb);
         fis.setVariable("strength", strength);

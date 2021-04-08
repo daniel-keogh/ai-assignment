@@ -43,6 +43,10 @@ public final class Player {
         this.health = health;
     }
 
+    public void reduceHealth(int amount) {
+        this.health -= amount;
+    }
+
     @Override
     public String toString() {
         return String.format("[Player]: (%d, %d)", currentRow, currentCol);

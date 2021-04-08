@@ -43,6 +43,10 @@ public class GameWindow extends Application {
         stage.setWidth(600);
         stage.setHeight(630);
         stage.setOnCloseRequest((e) -> {
+            if (player.getHealth() <= 0) {
+                System.out.printf("You died after %.0f seconds.\n", runtime());
+            }
+
             model.tearDown();   // Shut down the executor service
             timer.cancel();     // Stop the toolbar timer
         });
@@ -69,6 +73,8 @@ public class GameWindow extends Application {
     private ToolBar getToolbar() {
         ToolBar toolBar = new ToolBar();
 
+        // Add a spacer between the labels
+        // https://www.jackrutorial.com/2020/04/how-to-add-space-between-buttons-in-javafx.html
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
@@ -92,7 +98,7 @@ public class GameWindow extends Application {
      */
     private void refreshStatusBar() {
         Platform.runLater(() -> {
-            String duration = String.format("Time: %.0f (s)", (System.currentTimeMillis() - startTime) / 1000);
+            String duration = String.format("Time: %.0f (s)", runtime());
             String health = "Player health: " + player.getHealth();
 
             durationText.setText(duration);
@@ -151,5 +157,9 @@ public class GameWindow extends Application {
         sprites[4] = new Sprite("Red Green Enemy", "/res/gred-0.png", "/res/gred-1.png", "/res/gred-2.png", "/res/gred-3.png", "/res/gred-4.png", "/res/gred-5.png", "/res/gred-6.png", "/res/gred-7.png");
         sprites[5] = new Sprite("Orange Enemy", "/res/orange-0.png", "/res/orange-1.png", "/res/orange-2.png", "/res/orange-3.png", "/res/orange-4.png", "/res/orange-5.png", "/res/orange-6.png", "/res/orange-7.png");
         return sprites;
+    }
+
+    private double runtime() {
+        return (System.currentTimeMillis() - startTime) / 1000;
     }
 }
