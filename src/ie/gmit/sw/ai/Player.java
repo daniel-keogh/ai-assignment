@@ -6,7 +6,7 @@ package ie.gmit.sw.ai;
 public final class Player {
     private static final Player instance = new Player();
 
-    public static final int STARTING_HEALTH = 100;
+    public static final int STARTING_HEALTH = 200;
 
     private int currentRow;
     private int currentCol;
@@ -40,11 +40,11 @@ public final class Player {
     }
 
     public void setHealth(int health) {
-        this.health = health;
+        this.health = Math.max(health, 0);
     }
 
     public void reduceHealth(int amount) {
-        this.health -= amount;
+        setHealth(health - amount);
     }
 
     @Override

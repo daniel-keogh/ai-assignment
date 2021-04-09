@@ -10,10 +10,9 @@ FUNCTION_BLOCK getDamage
     END_VAR
 
     FUZZIFY strength
-        TERM weak := (0,1) (15,1) (25,0);
-        TERM average := trape 15 25 35 45;
-        TERM strong := (35,0) (45,1) (65,1);
-        TERM formidable := (60,0) (80,1) (100,1);
+        TERM weak := (0,1) (15,1) (40,0);
+        TERM average := trape 25 40 60 75;
+        TERM formidable := (60,0) (85,1) (100,1);
     END_FUZZIFY
 
     FUZZIFY energy
@@ -38,9 +37,8 @@ FUNCTION_BLOCK getDamage
 
 		RULE 1 : IF strength IS weak OR energy IS low THEN damage IS low;
 		RULE 2 : IF strength IS average OR energy IS normal THEN damage IS medium;
-		RULE 3 : IF strength IS strong OR energy IS high THEN damage IS high;
-		RULE 4 : IF strength IS formidable THEN damage IS high;
+		RULE 3 : IF strength IS formidable AND energy IS low THEN damage IS medium;
+		RULE 4 : IF strength IS formidable AND energy IS high THEN damage IS high;
 	END_RULEBLOCK
 
 END_FUNCTION_BLOCK
-

@@ -10,6 +10,25 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 
+/**
+ *
+ *  Data set for the Neural Network.
+ *
+ *  Inputs
+ *  -------------
+ *  1) Health (2 = Healthy, 1 = Minor Injuries, 0 = Serious Injuries)
+ *  2) Has a Sword (1 = yes, 0 = no)
+ *  3) Has a Gun (1 = yes, 0 = no)
+ *  4) Number of Enemies (This value may need to be normalized)
+ *
+ *  Outputs
+ *  -------------
+ *  1) Panic
+ *  2) Attack
+ *  3) Hide
+ *  4) Run
+ *
+ */
 public class ChaseBehaviour {
     // Health, Sword, Gun, Enemies
     private static final double[][] data = {
@@ -59,7 +78,7 @@ public class ChaseBehaviour {
         int epoch = 1;
         do {
             train.iteration();
-            //System.out.println("Epoch #" + epoch + " Error:" + train.getError());
+            System.out.println("Epoch #" + epoch + " Error:" + train.getError());
             epoch++;
         } while (train.getError() > minError);
         train.finishTraining();

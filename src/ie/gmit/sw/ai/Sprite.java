@@ -18,7 +18,7 @@ public class Sprite {
         this.frames = new Image[images.length];  // Initialise the image frames
 
         // Read in each image as a BufferedImage
-        for (int i = 0; i < images.length; i++){
+        for (int i = 0; i < images.length; i++) {
             frames[i] = new Image(Objects.requireNonNull(getClass().getResource(images[i])).toString());
         }
     }
@@ -28,7 +28,7 @@ public class Sprite {
      */
     public Image getNext() {
         int idx = index;
-        if (index < frames.length - 1){
+        if (index < frames.length - 1) {
             index++;
         } else {
             index = 0; // Circle back to the start of the array

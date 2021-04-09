@@ -3,14 +3,12 @@ package ie.gmit.sw.ai;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 
 import ie.gmit.sw.ai.npc.CharacterTask;
 import ie.gmit.sw.ai.npc.Npc;
-import ie.gmit.sw.ai.searching.Point;
 import javafx.concurrent.Task;
 
 public class GameModel {
@@ -68,11 +66,11 @@ public class GameModel {
 
     private void addGameCharacters() {
         Collection<Task<Void>> tasks = new ArrayList<>();
-        addGameCharacter(tasks, '\u0032', '0', 1); // 2 is a Red Enemy, 0 is a hedge
-//        addGameCharacter(tasks, '\u0033', '0', MAX_CHARACTERS / 5); // 3 is a Pink Enemy, 0 is a hedge
-//        addGameCharacter(tasks, '\u0034', '0', MAX_CHARACTERS / 5); // 4 is a Blue Enemy, 0 is a hedge
-//        addGameCharacter(tasks, '\u0035', '0', MAX_CHARACTERS / 5); // 5 is a Red Green Enemy, 0 is a hedge
-//        addGameCharacter(tasks, '\u0036', '0', MAX_CHARACTERS / 5); // 6 is a Orange Enemy, 0 is a hedge
+        addGameCharacter(tasks, '\u0032', '0', MAX_CHARACTERS / 5); // 2 is a Red Enemy, 0 is a hedge
+        addGameCharacter(tasks, '\u0033', '0', MAX_CHARACTERS / 5); // 3 is a Pink Enemy, 0 is a hedge
+        addGameCharacter(tasks, '\u0034', '0', MAX_CHARACTERS / 5); // 4 is a Blue Enemy, 0 is a hedge
+        addGameCharacter(tasks, '\u0035', '0', MAX_CHARACTERS / 5); // 5 is a Red Green Enemy, 0 is a hedge
+        addGameCharacter(tasks, '\u0036', '0', MAX_CHARACTERS / 5); // 6 is a Orange Enemy, 0 is a hedge
         tasks.forEach(exec::execute);
     }
 
@@ -86,7 +84,7 @@ public class GameModel {
                 model[row][col] = enemyID;
 
                 Npc npc = new Npc(enemyID, row, col, this);
-                tasks.add(new CharacterTask(this, enemyID, npc));
+                tasks.add(new CharacterTask(this, npc));
 
                 counter++;
             }
@@ -95,7 +93,7 @@ public class GameModel {
 
     public boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol, char character) {
         if (toRow <= this.size() - 1 && toCol <= this.size() - 1 && this.get(toRow, toCol) == ' ') {
-            this.set(fromRow, fromCol, '\u0020');
+            this.set(fromRow, fromCol, PATH);
             this.set(toRow, toCol, character);
             return true;
         } else {
@@ -139,16 +137,5 @@ public class GameModel {
         }
 
         return matrix;
-    }
-
-    public Optional<Point> getPositionById(char id) {
-        for (int i = 0; i < model.length; i++) {
-            for (int j = 0; j < model[i].length; j++) {
-                if (model[i][j] == id) {
-                    return Optional.of(new Point(i, j));
-                }
-            }
-        }
-        return Optional.empty();
     }
 }

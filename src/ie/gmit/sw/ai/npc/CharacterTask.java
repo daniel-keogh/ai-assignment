@@ -1,10 +1,7 @@
 package ie.gmit.sw.ai.npc;
 
 import ie.gmit.sw.ai.GameModel;
-import ie.gmit.sw.ai.searching.Point;
 import javafx.concurrent.Task;
-
-import java.util.Optional;
 
 /**
  * CharacterTask represents a Runnable game character. The character wanders around the
@@ -14,31 +11,21 @@ import java.util.Optional;
 public class CharacterTask extends Task<Void> {
     private static final int SLEEP_TIME = 300; // Sleep for 300 ms
 
-    private final char enemyID;
     private final GameModel model;
     private final Command cmd;
 
     private boolean alive = true;
 
-    public CharacterTask(GameModel model, char enemyID, Command cmd) {
+    public CharacterTask(GameModel model, Command cmd) {
         this.model = model;
         this.cmd = cmd;
-        this.enemyID = enemyID;
     }
 
     /**
      * Kills the character.
      */
-    public void kilL() {
+    public void kill() {
         alive = false;
-
-        // Remove the character from the view
-        Optional<Point> pos = model.getPositionById(enemyID);
-
-        if (pos.isPresent()) {
-            Point p = pos.get();
-            model.set(p.row(), p.column(), GameModel.PATH);
-        }
     }
 
     /**

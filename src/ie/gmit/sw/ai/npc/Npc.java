@@ -6,26 +6,28 @@ import ie.gmit.sw.ai.searching.BFS;
 import ie.gmit.sw.ai.searching.Node;
 import ie.gmit.sw.ai.searching.Point;
 import ie.gmit.sw.ai.utils.Maths;
-import net.sourceforge.jFuzzyLogic.FIS;
-import net.sourceforge.jFuzzyLogic.FunctionBlock;
-import net.sourceforge.jFuzzyLogic.rule.Variable;
+import ie.gmit.sw.ai.utils.Random;
 
 import java.util.Optional;
 import java.util.Stack;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * This class represents an autonomous character.
+ */
 public class Npc implements Command {
 
-    private static final int MAX_ENERGY = 100;
-    private static final int MAX_DISTANCE = 100;
+    public static final int MAX_STRENGTH = 100;
+    public static final int MAX_ENERGY = 100;
+
     private static final ThreadLocalRandom rand = ThreadLocalRandom.current();
-    private static final String FCL_FILE = "./src/resources/fuzzy/patrol.fcl";
-    private static final FIS fis;
 
     private int currentRow;
     private int currentCol;
+
     private int energy = 100;
-    private int energyDelta = 5;
+    private int energyDelta = 1;
+    private final int strength = Random.generate(MAX_STRENGTH);
 
     private final char enemyId;
     private final GameModel model;
@@ -35,16 +37,7 @@ public class Npc implements Command {
     private Point target = null;
     private Stack<Node> route = new Stack<>();
 
-    private final NpcAttack npcAttack = new NpcAttack();
-
-    static {
-        fis = FIS.load(FCL_FILE, true);
-
-        if (fis == null) {
-            System.err.println("[Error] Unable to load FCL file: " + FCL_FILE);
-            System.exit(1);
-        }
-    }
+    private final NpcWeapon npcAttack = new NpcWeapon();
 
     public Npc(char enemyId, int startRow, int startCol, GameModel model) {
         this.enemyId = enemyId;
@@ -62,38 +55,17 @@ public class Npc implements Command {
 
     @Override
     public void execute() {
-        setCurrentPosition();
-
-        if (energy <= 0) {
-            energy = MAX_ENERGY;
-        } else {
-            energy -= energyDelta;
-        }
-
-        double distance = Maths.distance(currentRow, currentCol, player.getCurrentRow(), player.getCurrentCol());
-        double aggression = getAggression(distance, energy);
-
-        Aggression a = Aggression.valueOf(aggression);
-
-        if (target == null) {
-            Point p = new Point(player.getCurrentRow(), player.getCurrentCol());
-            Point c = new Point(currentRow, currentCol);
-
-            Optional<Node> targetNote = new BFS().search(modelAsIntArray, c, p);
-
-            if (targetNote.isPresent()) {
-                Node node = targetNote.get();
-                target = node.point();
-                route = node.toRoute();
-            }
-        }
-
-        if (distance <= 1) {
-            npcAttack.attack(energy);
-        }
+        updateCurrentPosition();
+        searchForPlayer();
+        updateEnergy();
+        attack();
     }
 
-    private void setCurrentPosition() {
+    /**
+     * Moves the character to a new position. This will be either the next row/col on their
+     * current route or a random position if there's no route currently set.
+     */
+    private void updateCurrentPosition() {
         int temp_row;
         int temp_col;
 
@@ -123,25 +95,47 @@ public class Npc implements Command {
         }
     }
 
-    public double getAggression(double distanceFromPlayer, int energy) {
-        if (distanceFromPlayer > MAX_DISTANCE || distanceFromPlayer < 0) {
-            throw new IllegalArgumentException("distance must be <= " + MAX_DISTANCE + " and > 0");
+    /**
+     * Update the NPC's energy.
+     */
+    private void updateEnergy() {
+        if (energy <= 0) {
+            energy = MAX_ENERGY;
+        } else {
+            energy -= energyDelta;
         }
-        if (energy > MAX_ENERGY || energy < 0) {
-            throw new IllegalArgumentException("energy must be <= " + MAX_ENERGY + " and > 0");
+    }
+
+    /**
+     * Search for the player and set the current route to the player's current position.
+     */
+    private void searchForPlayer() {
+        if (target == null) {
+            Point p = new Point(player.getCurrentRow(), player.getCurrentCol());
+            Point c = new Point(currentRow, currentCol);
+
+            Optional<Node> targetNote = new BFS().search(modelAsIntArray, c, p);
+
+            if (targetNote.isPresent()) {
+                Node node = targetNote.get();
+                target = node.point();
+                route = node.toRoute();
+            }
         }
+    }
 
-        FunctionBlock fb = fis.getFunctionBlock("getAggression");
+    /**
+     * Attack the player if they are next to the NPC.
+     */
+    private void attack() {
+        double distance = Maths.distance(currentRow, currentCol, player.getCurrentRow(), player.getCurrentCol());
 
-//        JFuzzyChart.get().chart(fb);
-        fis.setVariable("distanceFromPlayer", distanceFromPlayer);
-        fis.setVariable("energy", energy);
-        fis.evaluate();
-
-        Variable aggression = fis.getVariable("aggression");
-//		JFuzzyChart.get().chart(aggression, aggression.getDefuzzifier(), true);
-
-        return aggression.getValue();
+        // If distance is 1, the NPC is beside the player
+        if (distance <= 1) {
+            int damage = (int) npcAttack.getDamage(strength, energy);
+            player.reduceHealth(damage);
+            System.out.printf("NPC %c attacking the player (damage: %d)...\n", enemyId, damage);
+        }
     }
 
     @Override
