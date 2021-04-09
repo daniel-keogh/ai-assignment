@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7d6f5460-57ab-47f7-8c49-1a025157a069" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/Action.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/GameView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/GameWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/GameWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/utils/Maths.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/utils/Maths.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/Runner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/ChaseBehaviour.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/ChaseBehaviour.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,8 +15,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -113,7 +112,7 @@
       <workItem from="1617914056728" duration="1713000" />
       <workItem from="1617918120334" duration="590000" />
       <workItem from="1617976988358" duration="3505000" />
-      <workItem from="1617980641373" duration="7770000" />
+      <workItem from="1617980641373" duration="22883000" />
     </task>
     <servers />
   </component>

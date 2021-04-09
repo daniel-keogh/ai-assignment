@@ -1,80 +1,129 @@
 package ie.gmit.sw.ai.npc;
 
 import org.encog.Encog;
-import org.encog.engine.network.activation.ActivationSigmoid;
+import org.encog.engine.network.activation.ActivationLinear;
 import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataPair;
 import org.encog.ml.data.MLDataSet;
+import org.encog.ml.data.basic.BasicMLData;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
+import org.encog.util.obj.SerializeObject;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
- *
- *  Data set for the Neural Network.
- *
- *  Inputs
- *  -------------
- *  1) Health (2 = Healthy, 1 = Minor Injuries, 0 = Serious Injuries)
- *  2) Has a Sword (1 = yes, 0 = no)
- *  3) Has a Gun (1 = yes, 0 = no)
- *  4) Number of Enemies (This value may need to be normalized)
- *
- *  Outputs
- *  -------------
- *  1) Panic
- *  2) Attack
- *  3) Hide
- *  4) Run
- *
+ * Class for the Neural Network.
+ * <p>
+ * <p>
+ * Inputs:
+ * <hr/>
+ * <ol>
+ *     <li>Player Health</li>
+ *     <li>NPC Energy</li>
+ *     <li>NPC Strength</li>
+ * </ol>
+ * <p>
+ * Outputs:
+ * <hr/>
+ * <ol>
+ *     <li>Rest</li>
+ *     <li>Chase</li>
+ * </ol>
  */
 public class ChaseBehaviour {
-    // Health, Sword, Gun, Enemies
-    private static final double[][] data = {
-            {2, 0, 0, 0}, {2, 0, 0, 1}, {2, 0, 1, 1},
-            {2, 0, 1, 2}, {2, 1, 0, 2}, {2, 1, 0, 1},
-            {1, 0, 0, 0}, {1, 0, 0, 1}, {1, 0, 1, 1},
-            {1, 0, 1, 2}, {1, 1, 0, 2}, {1, 1, 0, 1},
-            {0, 0, 0, 0}, {0, 0, 0, 1}, {0, 0, 1, 1},
-            {0, 0, 1, 2}, {0, 1, 0, 2}, {0, 1, 0, 1},
+
+    private static final String FILE_NAME = "./src/resources/neural/ChaseBehaviourNN.bin";
+
+    private static ChaseBehaviour instance;
+
+    // 1. Player health
+    // 2. Energy
+    // 3. Strength
+    private final double[][] data = {
+            {200, 100, 100}, {150,  80,  80}, {100,  60,  60},
+            { 50,  40,  40}, {200,  20,  20}, {150, 100,  20},
+            {100,  80,  40}, { 50,  60,  60}, {200,  40,  80},
+            {150,  20, 100}, {100,  40, 100}, { 50,  60,  80},
+            {200,  80,  60}, {150, 100,  40}, {100,  80,  20},
+            { 50,  60,  20}, {200,  40,  40}, {150,  20,  60},
+            { 50, 100,  80}, { 75,  80, 100}, { 75,  50,  50},
+            { 75,  25,  25}, { 25,  15,  75}, { 25,  10,  25},
     };
 
-    // Panic, Attack, Hide, Run
-    private static final double[][] expected = {
-            {0.0, 0.0, 1.0, 0.0}, {0.0, 0.0, 1.0, 0.0}, {1.0, 0.0, 0.0, 0.0},
-            {1.0, 0.0, 0.0, 0.0}, {0.0, 0.0, 0.0, 1.0}, {1.0, 0.0, 0.0, 0.0},
-            {0.0, 0.0, 1.0, 0.0}, {0.0, 0.0, 0.0, 1.0}, {1.0, 0.0, 0.0, 0.0},
-            {0.0, 0.0, 0.0, 1.0}, {0.0, 0.0, 0.0, 1.0}, {0.0, 0.0, 0.0, 1.0},
-            {0.0, 0.0, 1.0, 0.0}, {0.0, 0.0, 0.0, 1.0}, {0.0, 0.0, 0.0, 1.0},
-            {0.0, 1.0, 0.0, 0.0}, {0.0, 1.0, 0.0, 0.0}, {0.0, 0.0, 0.0, 1.0},
+    // 1. Rest
+    // 2. Chase
+    private final double[][] expected = {
+            {0.0, 1.0}, {0.0, 1.0}, {0.0, 1.0},
+            {1.0, 0.0}, {1.0, 0.0}, {1.0, 0.0},
+            {0.0, 1.0}, {0.0, 1.0}, {1.0, 0.0},
+            {1.0, 0.0}, {1.0, 0.0}, {1.0, 0.0},
+            {0.0, 1.0}, {0.0, 1.0}, {1.0, 0.0},
+            {1.0, 0.0}, {1.0, 0.0}, {1.0, 0.0},
+            {1.0, 0.0}, {1.0, 0.0}, {1.0, 0.0},
+            {1.0, 0.0}, {1.0, 0.0}, {1.0, 0.0},
     };
 
-    public static void train() {
+    private BasicNetwork network;
+
+    private ChaseBehaviour() {
+        try {
+            // try to load a pre-existing neural network
+            network = load();
+        } catch (Exception e) {
+            System.err.println("[Error]: Failed to load pre-existing network");
+            network = null;
+        }
+    }
+
+    public static ChaseBehaviour getInstance() {
+        if (instance == null) {
+            instance = new ChaseBehaviour();
+        }
+        return instance;
+    }
+
+    /**
+     * Check if a network exists. If false it will have to be trained.
+     */
+    public boolean networkExists() {
+        return network != null;
+    }
+
+    public void train(boolean save) throws IOException {
+        train();
+        if (save) save();
+    }
+
+    public void train() {
         //----------------------------------------------------
         // Step 1: Declare Network Topology
         //----------------------------------------------------
-        System.out.println("[INFO] Creating neural network");
-        BasicNetwork network = new BasicNetwork();
-        network.addLayer(new BasicLayer(null, true, 4));
-        network.addLayer(new BasicLayer(new ActivationSigmoid(), true, 2));
-        network.addLayer(new BasicLayer(new ActivationSigmoid(), false, 4));
+        System.out.println("[info] Creating neural network topology...");
+
+        network = new BasicNetwork();
+        network.addLayer(new BasicLayer(null, true, 3));
+        network.addLayer(new BasicLayer(new ActivationLinear(), true, 2));
+        network.addLayer(new BasicLayer(new ActivationLinear(), false, 2));
         network.getStructure().finalizeStructure();
         network.reset();
 
         //----------------------------------------------------
         // Step 2: Create the training data set
         //----------------------------------------------------
-        System.out.println("[INFO] Creating training set");
+        System.out.println("[info] Creating training set...");
         MLDataSet trainingSet = new BasicMLDataSet(data, expected);
 
         //----------------------------------------------------
         // Step 3: Train the NN
         //----------------------------------------------------
-        System.out.println("[INFO] Training the network...");
+        System.out.println("[info] Training the network...");
         ResilientPropagation train = new ResilientPropagation(network, trainingSet);
 
-        double minError = 0.09; //Change and see the effect on the result... :)
+        double minError = 0.15;
         int epoch = 1;
         do {
             train.iteration();
@@ -82,40 +131,63 @@ public class ChaseBehaviour {
             epoch++;
         } while (train.getError() > minError);
         train.finishTraining();
-        System.out.println("[INFO] training complete in " + epoch + " epochs with error=" + train.getError());
+
+        System.out.println("[info] training complete in " + epoch + " epochs with error=" + train.getError());
 
         //----------------------------------------------------
         // Step 4: Test the NN
         //----------------------------------------------------
-        System.out.println("[INFO] Testing the network:");
+        System.out.println("[info] Testing the network...");
+
         for (MLDataPair pair : trainingSet) {
             MLData output = network.compute(pair.getInput());
-            System.out.println(pair.getInput().getData(0) + ","
-                    + pair.getInput().getData(1)
-                    + ", Y=" + (int) Math.round(output.getData(0))
-                    + ", Yd=" + (int) pair.getIdeal().getData(0));
+
+            int y = (int) Math.round(output.getData(0));
+            int yd = (int) pair.getIdeal().getData(0);
+
+            double health = pair.getInput().getData(0);
+            double energy = pair.getInput().getData(1);
+            double strength = pair.getInput().getData(2);
+
+            System.out.println(health + "," + energy + "," + strength + ", Y=" + y + ", Yd=" + yd);
         }
 
         //----------------------------------------------------
         // Step 5: Shutdown the NN
         //----------------------------------------------------
-        System.out.println("[INFO] Shutting down.");
+        System.out.println("[info] Shutting down...");
         Encog.getInstance().shutdown();
     }
 
-    public void rest() {
+    /**
+     * Use the NN to classify the given inputs and determine what {@link Action} the NPC should take.
+     *
+     * @param playerHealth The amount of health the player has.
+     * @param energy The amount of energy the NPC has.
+     * @param strength How strong the NPC is.
+     * @return The action the NPC ought to take.
+     */
+    public Action classify(double playerHealth, double energy, double strength) {
+        MLData data = new BasicMLData(new double[]{playerHealth, energy, strength});
 
+        return switch (network.classify(data)) {
+            case 0 -> Action.REST;
+            case 1 -> Action.CHASE;
+            default -> throw new IllegalStateException("Invalid ML classification");
+        };
     }
 
-    public void attack() {
-
+    /**
+     * Save the model to the disk.
+     */
+    private void save() throws IOException {
+        SerializeObject.save(new File(FILE_NAME), network);
     }
 
-    public void flee() {
-
-    }
-
-    public void chase() {
-
+    /**
+     * Loads a pre-existing model from the disk.
+     */
+    private BasicNetwork load() throws IOException, ClassNotFoundException {
+        return (BasicNetwork) SerializeObject.load(new File(FILE_NAME));
     }
 }
