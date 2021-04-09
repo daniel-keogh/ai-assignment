@@ -1,5 +1,7 @@
 package ie.gmit.sw.ai;
 
+import ie.gmit.sw.ai.searching.Point;
+
 /**
  * Singleton object that provides a handle on the Player's current state.
  */
@@ -33,6 +35,10 @@ public final class Player {
 
     public void setCurrentCol(int currentCol) {
         this.currentCol = currentCol;
+    }
+
+    public Point getPosition() {
+        return new Point(currentRow, currentCol);
     }
 
     public int getHealth() {

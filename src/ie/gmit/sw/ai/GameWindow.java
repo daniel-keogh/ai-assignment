@@ -1,5 +1,6 @@
 package ie.gmit.sw.ai;
 
+import ie.gmit.sw.ai.searching.Point;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -21,8 +22,9 @@ import java.util.TimerTask;
  */
 public class GameWindow extends Application {
     private static final char PLAYER_ID = '1';
+    private static final char EXIT_ID = '7';
     private static final int DEFAULT_SIZE = 60;
-    private static final int IMAGE_COUNT = 6;
+    private static final int IMAGE_COUNT = 7;
 
     private Player player;
     private GameView view;
@@ -55,6 +57,7 @@ public class GameWindow extends Application {
         Sprite[] sprites = getSprites(); // Load the sprites from the res directory
         view.setSprites(sprites);        // Add the sprites to the view
         placePlayer();                   // Add the player
+        placeExit();                     // Add the exit
 
         box.getChildren().add(getToolbar());
         box.getChildren().add(view);
@@ -70,6 +73,8 @@ public class GameWindow extends Application {
     public void stop() {
         if (player.getHealth() <= 0) {
             System.out.printf("You died after %.0f seconds.\n", runtime());
+        } else {
+            System.out.printf("Game ended after %.0f seconds.\n", runtime());
         }
         model.tearDown();   // Shut down the executor service
         timer.cancel();     // Stop the toolbar timer
@@ -120,6 +125,7 @@ public class GameWindow extends Application {
      */
     public void keyPressed(KeyEvent e) {
         KeyCode key = e.getCode();
+
         if (key == KeyCode.RIGHT && currentCol < DEFAULT_SIZE - 1) {
             if (model.isValidMove(currentRow, currentCol, currentRow, currentCol + 1, PLAYER_ID)) currentCol++;
         } else if (key == KeyCode.LEFT && currentCol > 0) {
@@ -147,6 +153,13 @@ public class GameWindow extends Application {
         updateView();
     }
 
+    private void placeExit() {
+        int exitRow = (int) (DEFAULT_SIZE * Math.random());
+        int exitCol = (int) (DEFAULT_SIZE * Math.random());
+        model.set(exitRow, exitCol, EXIT_ID);
+        view.setExitPoint(new Point(exitRow, exitCol));
+    }
+
     private void updateView() {
         view.setCurrentRow(currentRow);
         view.setCurrentCol(currentCol);
@@ -165,6 +178,7 @@ public class GameWindow extends Application {
         sprites[3] = new Sprite("Blue Enemy", "/res/blue-0.png", "/res/blue-1.png", "/res/blue-2.png", "/res/blue-3.png", "/res/blue-4.png", "/res/blue-5.png", "/res/blue-6.png", "/res/blue-7.png");
         sprites[4] = new Sprite("Red Green Enemy", "/res/gred-0.png", "/res/gred-1.png", "/res/gred-2.png", "/res/gred-3.png", "/res/gred-4.png", "/res/gred-5.png", "/res/gred-6.png", "/res/gred-7.png");
         sprites[5] = new Sprite("Orange Enemy", "/res/orange-0.png", "/res/orange-1.png", "/res/orange-2.png", "/res/orange-3.png", "/res/orange-4.png", "/res/orange-5.png", "/res/orange-6.png", "/res/orange-7.png");
+        sprites[6] = new Sprite("Exit", "/res/exit.png");
         return sprites;
     }
 

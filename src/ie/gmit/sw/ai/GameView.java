@@ -2,9 +2,12 @@ package ie.gmit.sw.ai;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import ie.gmit.sw.ai.searching.Point;
+import ie.gmit.sw.ai.utils.Maths;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -18,6 +21,7 @@ public class GameView extends Canvas {
     private static final Color PLAYER_COLOUR = Color.YELLOW;
     private static final Color BACKGROUND_COLOUR = Color.GREY;
     private static final Color HEDGE_COLOUR = Color.GREEN;
+    private static final Color EXIT_COLOUR = Color.BLACK;
     private final Color[] reds = {Color.SALMON, Color.CRIMSON, Color.RED}; // Animate enemy "dots" to make them easier to see
 
     private final int cellPadding = 2;
@@ -26,6 +30,7 @@ public class GameView extends Canvas {
 
     private int currentRow;
     private int currentCol;
+    private Point exitPoint;
     private boolean zoom = false;
     private Sprite[] sprites;
 
@@ -57,6 +62,10 @@ public class GameView extends Canvas {
         player.setCurrentCol(currentCol);
     }
 
+    public void setExitPoint(Point exitPoint) {
+        this.exitPoint = exitPoint;
+    }
+
     public void draw() {
         GraphicsContext g = super.getGraphicsContext2D();
 
@@ -74,7 +83,11 @@ public class GameView extends Canvas {
                 char ch = model.get(row, col);
                 if (zoom) {
                     if (ch > '0') {
-                        g.setFill(row == currentRow && col == currentCol ? PLAYER_COLOUR : reds[rand.nextInt(reds.length)]);
+                        if (row == exitPoint.row() && col == exitPoint.column()) {
+                            g.setFill(EXIT_COLOUR);
+                        } else {
+                            g.setFill(row == currentRow && col == currentCol ? PLAYER_COLOUR : reds[rand.nextInt(reds.length)]);
+                        }
                         g.fillRect(x1, y1, size, size);
                     }
                 } else {
@@ -95,6 +108,8 @@ public class GameView extends Canvas {
                 }
             }
         }
+
+        isPlayerAtExit();
     }
 
     public void toggleZoom() {
@@ -103,5 +118,13 @@ public class GameView extends Canvas {
 
     public void setSprites(Sprite[] sprites) {
         this.sprites = sprites;
+    }
+
+    private void isPlayerAtExit() {
+        double distance = Maths.distance(player.getPosition(), exitPoint);
+
+        if (distance <= 1) {
+            Platform.exit();
+        }
     }
 }
