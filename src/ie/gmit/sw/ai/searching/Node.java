@@ -2,7 +2,22 @@ package ie.gmit.sw.ai.searching;
 
 import java.util.Stack;
 
-public record Node(Point point, Node parent) {
+public class Node {
+    private final Point point;
+    private final Node parent;
+
+    public Node(Point point, Node parent) {
+        this.point = point;
+        this.parent = parent;
+    }
+
+    public Point point() {
+        return point;
+    }
+
+    public Node parent() {
+        return parent;
+    }
 
     /**
      * Follows the parent nodes to get the route from the topmost node to the end.

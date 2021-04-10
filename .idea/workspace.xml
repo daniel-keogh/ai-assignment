@@ -3,11 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="7d6f5460-57ab-47f7-8c49-1a025157a069" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/Npc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/Npc.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/NpcBehaviour.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/NpcBehaviour.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/NpcWeapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/NpcWeapon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/fuzzy/damage.fcl" beforeDir="false" afterPath="$PROJECT_DIR$/resources/fuzzy/damage.fcl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/neural/ChaseBehaviourNN.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/searching/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/searching/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/searching/Point.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/searching/Point.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,13 +71,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -121,6 +120,7 @@
       <workItem from="1617976988358" duration="3505000" />
       <workItem from="1617980641373" duration="26833000" />
       <workItem from="1618050649548" duration="13404000" />
+      <workItem from="1618075987326" duration="233000" />
     </task>
     <servers />
   </component>
