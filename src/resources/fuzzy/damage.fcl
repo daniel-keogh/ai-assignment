@@ -34,19 +34,19 @@ FUNCTION_BLOCK getDamage
         TERM high := (60,0) (80,1) (100,1);
 
         METHOD : COG; // Center of Gravity (Mamdani Method).
-		DEFAULT := 0;
+	    DEFAULT := 0;
     END_DEFUZZIFY
 
     // Define the set of fuzzy rules.
     RULEBLOCK No1
-		AND : MIN;
-		ACT : MIN;
-		ACCU : MAX;
+        AND : MIN;
+        ACT : MIN;
+        ACCU : MAX;
 
-		RULE 1 : IF strength IS weak OR energy IS low THEN damage IS low;
-		RULE 2 : IF strength IS average OR energy IS normal THEN damage IS medium;
-		RULE 3 : IF strength IS formidable AND energy IS low THEN damage IS medium;
-		RULE 4 : IF strength IS formidable AND energy IS NOT low THEN damage IS high;
-	END_RULEBLOCK
+        RULE 1 : IF strength IS weak OR energy IS low THEN damage IS low;
+        RULE 2 : IF strength IS average OR energy IS normal THEN damage IS medium;
+        RULE 3 : IF strength IS formidable AND energy IS low THEN damage IS medium;
+        RULE 4 : IF strength IS formidable AND energy IS NOT low THEN damage IS high;
+    END_RULEBLOCK
 
 END_FUNCTION_BLOCK

@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="7d6f5460-57ab-47f7-8c49-1a025157a069" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/Runner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/NpcBehaviour.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/NpcBehaviour.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/resources/fuzzy/damage.fcl" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/fuzzy/damage.fcl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -111,7 +109,7 @@
       <workItem from="1617918120334" duration="590000" />
       <workItem from="1617976988358" duration="3505000" />
       <workItem from="1617980641373" duration="26833000" />
-      <workItem from="1618050649548" duration="10833000" />
+      <workItem from="1618050649548" duration="10969000" />
     </task>
     <servers />
   </component>
