@@ -35,11 +35,11 @@ import java.io.IOException;
  *     <li>Chase</li>
  * </ol>
  */
-public class ChaseBehaviour {
+public class NpcBehaviour {
 
     private static final String FILE_NAME = "./src/resources/neural/ChaseBehaviourNN.bin";
 
-    private static ChaseBehaviour instance;
+    private static NpcBehaviour instance;
 
     // 1. Player health
     // 2. Energy
@@ -70,7 +70,7 @@ public class ChaseBehaviour {
 
     private BasicNetwork network;
 
-    private ChaseBehaviour() {
+    private NpcBehaviour() {
         try {
             // try to load a pre-existing neural network
             network = load();
@@ -80,9 +80,9 @@ public class ChaseBehaviour {
         }
     }
 
-    public static ChaseBehaviour getInstance() {
+    public static NpcBehaviour getInstance() {
         if (instance == null) {
-            instance = new ChaseBehaviour();
+            instance = new NpcBehaviour();
         }
         return instance;
     }

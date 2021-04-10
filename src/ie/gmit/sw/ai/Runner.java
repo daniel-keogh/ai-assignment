@@ -1,6 +1,6 @@
 package ie.gmit.sw.ai;
 
-import ie.gmit.sw.ai.npc.ChaseBehaviour;
+import ie.gmit.sw.ai.npc.NpcBehaviour;
 import javafx.application.Application;
 
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.io.IOException;
  */
 public class Runner {
     public static void main(String[] args) {
-        ChaseBehaviour chaseBehaviour = ChaseBehaviour.getInstance();
+        NpcBehaviour chaseBehaviour = NpcBehaviour.getInstance();
 
         if (!chaseBehaviour.networkExists()) {
             try {

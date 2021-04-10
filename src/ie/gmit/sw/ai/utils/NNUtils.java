@@ -35,21 +35,4 @@ public class NNUtils {
 
         return normalized;
     }
-
-    /**
-     * Returns the index of the output layer with the highest value.
-     */
-    public static int getMaxIndex(double[] vector) {
-        double max = Double.MIN_VALUE;
-        int maxIndex = -1;
-
-        for (int i = 0; i < vector.length; i++) {
-            if (vector[i] > max) {
-                max = vector[i];
-                maxIndex = i;
-            }
-        }
-
-        return maxIndex; // Corresponds to the classification
-    }
 }

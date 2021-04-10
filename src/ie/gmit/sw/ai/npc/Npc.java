@@ -24,50 +24,47 @@ public class Npc implements Command {
 
     private int currentRow;
     private int currentCol;
-
     private int energy = 100;
-    private int energyDelta = 1;
     private final int strength = Random.generate(MAX_STRENGTH);
-
+    private final NpcWeapon npcAttack = new NpcWeapon();
     private final char enemyId;
     private final GameModel model;
     private final int[][] modelAsIntArray;
     private final Player player;
-    private final ChaseBehaviour chaseBehaviour;
-
+    private final NpcBehaviour npcBehaviour;
     private Point target = null;
     private Action currentAction;
     private Stack<Node> route = new Stack<>();
 
-    private final NpcWeapon npcAttack = new NpcWeapon();
-
     public Npc(char enemyId, int startRow, int startCol, GameModel model) {
         this.enemyId = enemyId;
         this.model = model;
-        this.modelAsIntArray = model.toIntArray();
         this.currentRow = startRow;
         this.currentCol = startCol;
+        modelAsIntArray = model.toIntArray();
         player = Player.getInstance();
-        chaseBehaviour = ChaseBehaviour.getInstance();
-    }
-
-    public Npc(char enemyId, int startRow, int startCol, GameModel model, int energyDelta) {
-        this(enemyId, startRow, startCol, model);
-        this.energyDelta = energyDelta;
+        npcBehaviour = NpcBehaviour.getInstance();
     }
 
     @Override
     public void execute() {
-        currentAction = chaseBehaviour.classify(player.getHealth(), energy, strength);
-        updateCurrentPosition();
-        searchForPlayer();
+        // Decide on an Action to take
+        currentAction = npcBehaviour.classify(player.getHealth(), energy, strength);
+
+        if (currentAction == Action.CHASE) {
+            updateCurrentPosition();
+            searchForPlayer();
+        } else {
+            target = null; // stop chasing
+        }
+
         updateEnergy();
         attack();
     }
 
     /**
      * Moves the character to a new position. This will be either the next row/col on their
-     * current route or a random position if there's no route currently set.
+     * current route, or a random position (if there's no route currently set).
      */
     private void updateCurrentPosition() {
         int temp_row;
@@ -76,7 +73,7 @@ public class Npc implements Command {
         if (route.isEmpty()) {
             target = null;
 
-            //Randomly pick a direction up, down, left or right
+            // Randomly pick a direction up, down, left or right
             temp_row = currentRow;
             temp_col = currentCol;
 
@@ -86,11 +83,13 @@ public class Npc implements Command {
                 temp_col += rand.nextBoolean() ? 1 : -1;
             }
         } else {
+            System.out.printf("NPC %c chasing the player...\n", enemyId);
             Node next = route.pop();
             temp_row = next.point().row();
             temp_col = next.point().column();
         }
 
+        // Move the character
         if (model.isValidMove(currentRow, currentCol, temp_row, temp_col, enemyId)) {
             model.set(temp_row, temp_col, enemyId);
             model.set(currentRow, currentCol, GameModel.PATH);
@@ -100,25 +99,35 @@ public class Npc implements Command {
     }
 
     /**
-     * Update the NPC's energy.
+     * Update the NPC's energy, depending on whether they're chasing/resting.
      */
     private void updateEnergy() {
-        if (energy <= 0) {
-            energy = MAX_ENERGY;
+        final int chaseEnergyDelta = 2;
+        final int restEnergyDelta = 25;
+
+        if (currentAction == Action.REST) {
+            System.out.printf("NPC %c resting...\n", enemyId);
+            energy += restEnergyDelta;
+            if (energy > MAX_ENERGY) {
+                energy = MAX_ENERGY;
+            }
         } else {
-            energy -= energyDelta;
+            energy -= chaseEnergyDelta;
+            if (energy < 0) {
+                energy = 0;
+            }
         }
     }
 
     /**
-     * Search for the player and set the current route to the player's current position.
+     * Search for the player and set the NPC's route to the player's current position.
      */
     private void searchForPlayer() {
         if (target == null) {
-            Point p = new Point(player.getCurrentRow(), player.getCurrentCol());
-            Point c = new Point(currentRow, currentCol);
+            Point playerPos = new Point(player.getCurrentRow(), player.getCurrentCol());
+            Point currentPos = new Point(currentRow, currentCol);
 
-            Optional<Node> targetNote = new BFS().search(modelAsIntArray, c, p);
+            Optional<Node> targetNote = new BFS().search(modelAsIntArray, currentPos, playerPos);
 
             if (targetNote.isPresent()) {
                 Node node = targetNote.get();
@@ -144,6 +153,6 @@ public class Npc implements Command {
 
     @Override
     public String toString() {
-        return String.format("[Patrol]: (%d, %d), energy=%d", currentRow, currentCol, energy);
+        return String.format("[NPC]: (%d, %d), energy=%d, strength=%d", currentRow, currentCol, energy, strength);
     }
 }

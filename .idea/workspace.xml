@@ -2,16 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7d6f5460-57ab-47f7-8c49-1a025157a069" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/utils/NNUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/GameView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/GameWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/GameWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/GameModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/Runner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/Action.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/Action.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/ChaseBehaviour.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/ChaseBehaviour.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/ChaseBehaviour.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/NpcBehaviour.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/Npc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/Npc.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/NpcWeapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/NpcWeapon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/searching/BFS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/searching/BFS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/searching/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/searching/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/utils/NNUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/utils/NNUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +114,7 @@
       <workItem from="1617918120334" duration="590000" />
       <workItem from="1617976988358" duration="3505000" />
       <workItem from="1617980641373" duration="26833000" />
-      <workItem from="1618050649548" duration="6754000" />
+      <workItem from="1618050649548" duration="9370000" />
     </task>
     <servers />
   </component>
@@ -148,11 +145,6 @@
           <url>file://$PROJECT_DIR$/src/ie/gmit/sw/ai/searching/Path.java</url>
           <line>66</line>
           <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/Npc.java</url>
-          <line>61</line>
-          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

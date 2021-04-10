@@ -5,7 +5,7 @@ import java.util.Stack;
 public record Node(Point point, Node parent) {
 
     /**
-     * Follows the parent nodes to get the route from the top node to the end.
+     * Follows the parent nodes to get the route from the topmost node to the end.
      *
      * @return A {@link Stack} of nodes in the order they should be travelled.
      */
