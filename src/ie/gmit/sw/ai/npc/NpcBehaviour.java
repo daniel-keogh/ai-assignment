@@ -38,7 +38,7 @@ import java.io.IOException;
 public class NpcBehaviour {
 
     private static final String FILE_NAME = "./resources/neural/npc_model.bin";
-    private static final double MIN_ERROR = 0.15;
+    private static final double MIN_ERROR = 0.12;
 
     private static NpcBehaviour instance;
 
@@ -60,13 +60,13 @@ public class NpcBehaviour {
     // 2. Chase
     private final double[][] expected = {
             {0.0, 1.0}, {0.0, 1.0}, {0.0, 1.0},
-            {1.0, 0.0}, {1.0, 0.0}, {1.0, 0.0},
+            {1.0, 0.0}, {1.0, 0.0}, {0.0, 1.0},
             {0.0, 1.0}, {0.0, 1.0}, {1.0, 0.0},
-            {1.0, 0.0}, {1.0, 0.0}, {1.0, 0.0},
-            {0.0, 1.0}, {0.0, 1.0}, {1.0, 0.0},
-            {1.0, 0.0}, {1.0, 0.0}, {1.0, 0.0},
-            {1.0, 0.0}, {1.0, 0.0}, {1.0, 0.0},
-            {1.0, 0.0}, {1.0, 0.0}, {1.0, 0.0},
+            {1.0, 0.0}, {0.0, 1.0}, {0.0, 1.0},
+            {0.0, 1.0}, {0.0, 1.0}, {0.0, 1.0},
+            {0.0, 1.0}, {1.0, 0.0}, {1.0, 0.0},
+            {0.0, 1.0}, {0.0, 1.0}, {0.0, 1.0},
+            {1.0, 0.0}, {0.0, 1.0}, {1.0, 0.0},
     };
 
     private BasicNetwork network;
