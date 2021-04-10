@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7d6f5460-57ab-47f7-8c49-1a025157a069" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/neural/npc_model.bin" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/NpcBehaviour.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/NpcBehaviour.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -126,7 +123,7 @@
       <workItem from="1618077692517" duration="1032000" />
       <workItem from="1618078807248" duration="107000" />
       <workItem from="1618079185895" duration="153000" />
-      <workItem from="1618079907218" duration="3079000" />
+      <workItem from="1618079907218" duration="3242000" />
     </task>
     <servers />
   </component>
