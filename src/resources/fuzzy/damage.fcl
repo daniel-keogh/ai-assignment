@@ -34,7 +34,7 @@ FUNCTION_BLOCK getDamage
         TERM high := (60,0) (80,1) (100,1);
 
         METHOD : COG; // Center of Gravity (Mamdani Method).
-	    DEFAULT := 0;
+        DEFAULT := 0;
     END_DEFUZZIFY
 
     // Define the set of fuzzy rules.
