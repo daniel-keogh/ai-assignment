@@ -1,4 +1,4 @@
-// This function will determine how much damage ought to be inflicted upon the player.
+// This function will determine how much damage ought to be inflicted on the player.
 FUNCTION_BLOCK getDamage
 
     // The input variables are the enemy's strength and current energy level.
@@ -43,6 +43,7 @@ FUNCTION_BLOCK getDamage
         ACT : MIN;
         ACCU : MAX;
 
+        // Generally the stronger and more energetic the character, the more damage they will inflict.
         RULE 1 : IF strength IS weak OR energy IS low THEN damage IS low;
         RULE 2 : IF strength IS average OR energy IS normal THEN damage IS medium;
         RULE 3 : IF strength IS formidable AND energy IS low THEN damage IS medium;

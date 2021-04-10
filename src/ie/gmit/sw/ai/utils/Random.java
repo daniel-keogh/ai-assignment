@@ -3,6 +3,7 @@ package ie.gmit.sw.ai.utils;
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class Random {
+
     private Random() {
     }
 

@@ -6,9 +6,9 @@ import net.sourceforge.jFuzzyLogic.plot.JFuzzyChart;
 import net.sourceforge.jFuzzyLogic.rule.Variable;
 
 /**
- * Denotes an object that can inflict damage upon the player.
+ * Fuzzy controller which determines how much damage should be inflicted on the player.
  */
-public class NpcWeapon {
+public class NpcAttack {
     private static final String FCL_FILE = "./resources/fuzzy/damage.fcl";
     private static final FIS fis;
 

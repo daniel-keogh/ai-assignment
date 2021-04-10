@@ -17,7 +17,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Class for the Neural Network.
+ * NPC Neural Network controller.
  * <p>
  * <p>
  * Inputs:
@@ -37,7 +37,7 @@ import java.io.IOException;
  */
 public class NpcBehaviour {
 
-    private static final String FILE_NAME = "./resources/neural/ChaseBehaviourNN.bin";
+    private static final String FILE_NAME = "./resources/neural/npc_model.bin";
     private static final double MIN_ERROR = 0.15;
 
     private static NpcBehaviour instance;

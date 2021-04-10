@@ -26,11 +26,11 @@ public class Npc implements Command {
     private int currentCol;
     private int energy = 100;
     private final int strength = Random.generate(MAX_STRENGTH);
-    private final NpcWeapon npcAttack = new NpcWeapon();
     private final char enemyId;
     private final GameModel model;
     private final int[][] modelAsIntArray;
     private final Player player;
+    private final NpcAttack npcAttack = new NpcAttack();
     private final NpcBehaviour npcBehaviour;
     private Point target = null;
     private Action currentAction;
@@ -138,13 +138,14 @@ public class Npc implements Command {
     }
 
     /**
-     * Attack the player if they are next to the NPC.
+     * Attack the player if they are beside the NPC.
      */
     private void attack() {
         double distance = Maths.distance(currentRow, currentCol, player.getCurrentRow(), player.getCurrentCol());
 
         // If distance is 1, the NPC is beside the player
         if (distance <= 1) {
+            // Get damage from the fuzzy controller
             int damage = (int) npcAttack.getDamage(strength, energy);
             player.reduceHealth(damage);
             System.out.printf("NPC %c: attacking the player (damage: %d)...\n", enemyId, damage);
