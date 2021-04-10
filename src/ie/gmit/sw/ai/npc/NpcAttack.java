@@ -6,7 +6,8 @@ import net.sourceforge.jFuzzyLogic.plot.JFuzzyChart;
 import net.sourceforge.jFuzzyLogic.rule.Variable;
 
 /**
- * Fuzzy controller which determines how much damage should be inflicted on the player.
+ * Fuzzy controller which determines how much damage should be inflicted on the player
+ * when they are attacked.
  */
 public class NpcAttack {
     private static final String FCL_FILE = "./resources/fuzzy/damage.fcl";

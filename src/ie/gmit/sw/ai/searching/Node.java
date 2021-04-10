@@ -26,8 +26,8 @@ public class Node {
      */
     public Stack<Node> toRoute() {
         Stack<Node> stack = new Stack<>();
-        Node next = this;
 
+        Node next = this;
         while (next.parent != null) {
             stack.push(next.parent);
             next = next.parent;

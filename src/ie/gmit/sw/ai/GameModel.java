@@ -37,7 +37,7 @@ public class GameModel {
     }
 
     /**
-     * Initialises the game model by creating an n row m array filled with hedge
+     * Initialises the game model by creating an n row m array filled with hedge.
      */
     private void init() {
         for (char[] chars : model) {

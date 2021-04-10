@@ -55,6 +55,6 @@ public final class Player {
 
     @Override
     public String toString() {
-        return String.format("[Player]: (%d, %d)", currentRow, currentCol);
+        return String.format("[Player]: (%d, %d), health=%d", currentRow, currentCol, health);
     }
 }

@@ -5,7 +5,7 @@ import javafx.concurrent.Task;
 
 /**
  * CharacterTask represents a Runnable game character. The character wanders around the
- * game model randomly and can interact with other game characters using
+ * game model and can interact with other game characters using
  * implementations of the Command interface that it is composed with.
  */
 public class CharacterTask extends Task<Void> {

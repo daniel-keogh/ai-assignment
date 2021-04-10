@@ -10,12 +10,12 @@ import java.io.IOException;
  */
 public class Runner {
     public static void main(String[] args) {
-        NpcBehaviour chaseBehaviour = NpcBehaviour.getInstance();
+        NpcBehaviour npcBehaviour = NpcBehaviour.getInstance();
 
         // Train the model if it doesn't exist already
-        if (!chaseBehaviour.networkExists()) {
+        if (!npcBehaviour.networkExists()) {
             try {
-                chaseBehaviour.train(true);
+                npcBehaviour.train(true);
             } catch (IOException e) {
                 System.err.println("[Error]: Failed to save neural network");
                 e.printStackTrace();

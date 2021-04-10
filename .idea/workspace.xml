@@ -2,7 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7d6f5460-57ab-47f7-8c49-1a025157a069" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/GameModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/Runner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/Action.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/Action.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/CharacterTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/CharacterTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/NpcAttack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/NpcAttack.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/NpcBehaviour.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/npc/NpcBehaviour.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ie/gmit/sw/ai/searching/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ie/gmit/sw/ai/searching/Node.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,13 +80,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -123,7 +133,8 @@
       <workItem from="1618077692517" duration="1032000" />
       <workItem from="1618078807248" duration="107000" />
       <workItem from="1618079185895" duration="153000" />
-      <workItem from="1618079907218" duration="3242000" />
+      <workItem from="1618079907218" duration="3396000" />
+      <workItem from="1618083796244" duration="580000" />
     </task>
     <servers />
   </component>

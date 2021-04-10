@@ -89,7 +89,7 @@ public class NpcBehaviour {
     }
 
     /**
-     * Check if a network exists. If false it will have to be trained.
+     * Check if a network exists. If false, it will have to be trained.
      */
     public boolean networkExists() {
         return network != null;
@@ -177,6 +177,7 @@ public class NpcBehaviour {
         System.out.println("[Info] Shutting down...");
         Encog.getInstance().shutdown();
 
+        // Output a simple performance metric (e = (correct/total) * 100)
         System.out.printf("[Info] Accuracy: %.2f%%\n", ((double) correct / total) * 100);
     }
 
