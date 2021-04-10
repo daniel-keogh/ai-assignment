@@ -19,14 +19,15 @@ FUNCTION_BLOCK getDamage
         TERM formidable := (60,0) (85,1) (100,1);
     END_FUZZIFY
 
-    // Energy is also an arbitrary number between 1-100, but changes as they move around the game view.
+    // Energy is also an arbitrary number between 1-100, but this value will
+    // change as they move around the game view.
     FUZZIFY energy
         TERM low := (0,1) (20,1) (40,0);
         TERM normal := trape 30 45 55 70;
         TERM high := (60,0) (80,1) (100,1);
     END_FUZZIFY
 
-    // Determine the amount of output of the fuzzy inference.
+    // Determine the output of the fuzzy inference.
     DEFUZZIFY damage
         TERM low := (0,1) (20,1) (40,0);
         TERM medium := trian 20 50 80;

@@ -12,6 +12,7 @@ public class Runner {
     public static void main(String[] args) {
         NpcBehaviour chaseBehaviour = NpcBehaviour.getInstance();
 
+        // Train the model if it doesn't exist already
         if (!chaseBehaviour.networkExists()) {
             try {
                 chaseBehaviour.train(true);

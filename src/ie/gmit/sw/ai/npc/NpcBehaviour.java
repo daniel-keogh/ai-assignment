@@ -38,6 +38,7 @@ import java.io.IOException;
 public class NpcBehaviour {
 
     private static final String FILE_NAME = "./src/resources/neural/ChaseBehaviourNN.bin";
+    private static final double MIN_ERROR = 0.15;
 
     private static NpcBehaviour instance;
 
@@ -94,11 +95,19 @@ public class NpcBehaviour {
         return network != null;
     }
 
+    /**
+     * Train and then save the neural network.
+     *
+     * @throws IOException If unable to save the serialised model.
+     */
     public void train(boolean save) throws IOException {
         train();
         if (save) save();
     }
 
+    /**
+     * Trains the neural network.
+     */
     public void train() {
         //----------------------------------------------------
         // Step 1: Declare Network Topology
@@ -117,10 +126,9 @@ public class NpcBehaviour {
         //----------------------------------------------------
         System.out.println("[info] Creating training set...");
 
-        MLDataSet trainingSet = new BasicMLDataSet(
-                NNUtils.normalize(data, 0, 1),
-                NNUtils.normalize(expected, 0, 1)
-        );
+        double[][] normData = NNUtils.normalize(data, 0, 1);
+        double[][] normExpected = NNUtils.normalize(expected, 0, 1);
+        MLDataSet trainingSet = new BasicMLDataSet(normData, normExpected);
 
         //----------------------------------------------------
         // Step 3: Train the NN
@@ -128,13 +136,12 @@ public class NpcBehaviour {
         System.out.println("[info] Training the network...");
         ResilientPropagation train = new ResilientPropagation(network, trainingSet);
 
-        double minError = 0.15;
         int epoch = 1;
         do {
             train.iteration();
             System.out.println("Epoch #" + epoch + " Error:" + train.getError());
             epoch++;
-        } while (train.getError() > minError);
+        } while (train.getError() > MIN_ERROR);
         train.finishTraining();
 
         System.out.println("[info] training complete in " + epoch + " epochs with error=" + train.getError());
@@ -159,7 +166,7 @@ public class NpcBehaviour {
             double energy = pair.getInput().getData(1);
             double strength = pair.getInput().getData(2);
 
-            System.out.println(health + "," + energy + "," + strength + ", Y=" + y + ", Yd=" + yd);
+            System.out.printf("%.2f, %.2f, %.2f [Y=%d, Yd=%d]\n", health, energy, strength, y, yd);
 
             total++;
         }
