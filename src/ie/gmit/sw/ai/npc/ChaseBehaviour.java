@@ -1,7 +1,8 @@
 package ie.gmit.sw.ai.npc;
 
+import ie.gmit.sw.ai.utils.NNUtils;
 import org.encog.Encog;
-import org.encog.engine.network.activation.ActivationLinear;
+import org.encog.engine.network.activation.*;
 import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataPair;
 import org.encog.ml.data.MLDataSet;
@@ -44,14 +45,14 @@ public class ChaseBehaviour {
     // 2. Energy
     // 3. Strength
     private final double[][] data = {
-            {200, 100, 100}, {150,  80,  80}, {100,  60,  60},
-            { 50,  40,  40}, {200,  20,  20}, {150, 100,  20},
-            {100,  80,  40}, { 50,  60,  60}, {200,  40,  80},
-            {150,  20, 100}, {100,  40, 100}, { 50,  60,  80},
-            {200,  80,  60}, {150, 100,  40}, {100,  80,  20},
-            { 50,  60,  20}, {200,  40,  40}, {150,  20,  60},
-            { 50, 100,  80}, { 75,  80, 100}, { 75,  50,  50},
-            { 75,  25,  25}, { 25,  15,  75}, { 25,  10,  25},
+            {200, 100, 100}, {150, 80, 80}, {100, 60, 60},
+            {50, 40, 40}, {200, 20, 20}, {150, 100, 20},
+            {100, 80, 40}, {50, 60, 60}, {200, 40, 80},
+            {150, 20, 100}, {100, 40, 100}, {50, 60, 80},
+            {200, 80, 60}, {150, 100, 40}, {100, 80, 20},
+            {50, 60, 20}, {200, 40, 40}, {150, 20, 60},
+            {50, 100, 80}, {75, 80, 100}, {75, 50, 50},
+            {75, 25, 25}, {25, 15, 75}, {25, 10, 25},
     };
 
     // 1. Rest
@@ -106,8 +107,8 @@ public class ChaseBehaviour {
 
         network = new BasicNetwork();
         network.addLayer(new BasicLayer(null, true, 3));
-        network.addLayer(new BasicLayer(new ActivationLinear(), true, 2));
-        network.addLayer(new BasicLayer(new ActivationLinear(), false, 2));
+        network.addLayer(new BasicLayer(new ActivationSigmoid(), true, 2));
+        network.addLayer(new BasicLayer(new ActivationSigmoid(), false, 2));
         network.getStructure().finalizeStructure();
         network.reset();
 
@@ -115,7 +116,11 @@ public class ChaseBehaviour {
         // Step 2: Create the training data set
         //----------------------------------------------------
         System.out.println("[info] Creating training set...");
-        MLDataSet trainingSet = new BasicMLDataSet(data, expected);
+
+        MLDataSet trainingSet = new BasicMLDataSet(
+                NNUtils.normalize(data, 0, 1),
+                NNUtils.normalize(expected, 0, 1)
+        );
 
         //----------------------------------------------------
         // Step 3: Train the NN
@@ -139,17 +144,24 @@ public class ChaseBehaviour {
         //----------------------------------------------------
         System.out.println("[info] Testing the network...");
 
+        int correct = 0;
+        int total = 0;
+
         for (MLDataPair pair : trainingSet) {
             MLData output = network.compute(pair.getInput());
 
             int y = (int) Math.round(output.getData(0));
             int yd = (int) pair.getIdeal().getData(0);
 
+            if (y == yd) correct++;
+
             double health = pair.getInput().getData(0);
             double energy = pair.getInput().getData(1);
             double strength = pair.getInput().getData(2);
 
             System.out.println(health + "," + energy + "," + strength + ", Y=" + y + ", Yd=" + yd);
+
+            total++;
         }
 
         //----------------------------------------------------
@@ -157,18 +169,23 @@ public class ChaseBehaviour {
         //----------------------------------------------------
         System.out.println("[info] Shutting down...");
         Encog.getInstance().shutdown();
+
+        System.out.printf("[info] Accuracy: %.2f%%\n", ((double) correct / total) * 100);
     }
 
     /**
      * Use the NN to classify the given inputs and determine what {@link Action} the NPC should take.
      *
      * @param playerHealth The amount of health the player has.
-     * @param energy The amount of energy the NPC has.
-     * @param strength How strong the NPC is.
+     * @param energy       The amount of energy the NPC has.
+     * @param strength     How strong the NPC is.
      * @return The action the NPC ought to take.
      */
     public Action classify(double playerHealth, double energy, double strength) {
-        MLData data = new BasicMLData(new double[]{playerHealth, energy, strength});
+
+        double[] norm = NNUtils.normalize(new double[]{playerHealth, energy, strength}, 0, 1);
+
+        MLData data = new BasicMLData(norm);
 
         return switch (network.classify(data)) {
             case 0 -> Action.REST;

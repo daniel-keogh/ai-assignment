@@ -83,7 +83,7 @@ public class GameWindow extends Application {
     private ToolBar getToolbar() {
         ToolBar toolBar = new ToolBar();
 
-        // Add a spacer between the labels
+        // Add some space between the labels
         // https://www.jackrutorial.com/2020/04/how-to-add-space-between-buttons-in-javafx.html
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);

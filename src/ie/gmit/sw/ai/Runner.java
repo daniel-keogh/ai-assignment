@@ -12,14 +12,14 @@ public class Runner {
     public static void main(String[] args) {
         ChaseBehaviour chaseBehaviour = ChaseBehaviour.getInstance();
 
-//        if (!chaseBehaviour.networkExists()) {
-//            try {
-                chaseBehaviour.train();
-//            } catch (IOException e) {
-//                System.err.println("[Error]: Failed to save neural network");
-//                e.printStackTrace();
-//            }
-//        }
+        if (!chaseBehaviour.networkExists()) {
+            try {
+                chaseBehaviour.train(true);
+            } catch (IOException e) {
+                System.err.println("[Error]: Failed to save neural network");
+                e.printStackTrace();
+            }
+        }
 
         Application.launch(GameWindow.class, args);
     }

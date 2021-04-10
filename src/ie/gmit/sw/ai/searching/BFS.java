@@ -12,8 +12,8 @@ import java.util.Queue;
  * @see <a href="https://www.geeksforgeeks.org/shortest-path-in-a-binary-maze/">https://www.geeksforgeeks.org/shortest-path-in-a-binary-maze/</a>
  */
 public final class BFS {
-    public int rowSize;
-    public int colSize;
+    private int rowSize;
+    private int colSize;
 
     private static final int[] rowNum = {-1, 0, 0, 1};
     private static final int[] colNum = {0, -1, 1, 0};

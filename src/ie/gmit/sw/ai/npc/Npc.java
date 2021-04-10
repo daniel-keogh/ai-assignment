@@ -33,8 +33,10 @@ public class Npc implements Command {
     private final GameModel model;
     private final int[][] modelAsIntArray;
     private final Player player;
+    private final ChaseBehaviour chaseBehaviour;
 
     private Point target = null;
+    private Action currentAction;
     private Stack<Node> route = new Stack<>();
 
     private final NpcWeapon npcAttack = new NpcWeapon();
@@ -46,6 +48,7 @@ public class Npc implements Command {
         this.currentRow = startRow;
         this.currentCol = startCol;
         player = Player.getInstance();
+        chaseBehaviour = ChaseBehaviour.getInstance();
     }
 
     public Npc(char enemyId, int startRow, int startCol, GameModel model, int energyDelta) {
@@ -55,6 +58,7 @@ public class Npc implements Command {
 
     @Override
     public void execute() {
+        currentAction = chaseBehaviour.classify(player.getHealth(), energy, strength);
         updateCurrentPosition();
         searchForPlayer();
         updateEnergy();

@@ -13,6 +13,7 @@ public class NpcWeapon {
     private static final FIS fis;
 
     static {
+        // Load the FCL file
         fis = FIS.load(FCL_FILE, true);
 
         if (fis == null) {
@@ -25,7 +26,7 @@ public class NpcWeapon {
      * Get the damage to be inflicted on the player using the JFuzzyLogic API.
      *
      * @param strength The NPC's strength.
-     * @param energy The NPC's strength.
+     * @param energy   The NPC's strength.
      * @return The amount of damage.
      * @throws IllegalArgumentException If strength or energy are out of range.
      */
@@ -45,7 +46,7 @@ public class NpcWeapon {
         fis.evaluate();
 
         Variable damage = fis.getVariable("damage");
-		// JFuzzyChart.get().chart(damage, damage.getDefuzzifier(), true);
+        // JFuzzyChart.get().chart(damage, damage.getDefuzzifier(), true);
 
         return damage.getValue();
     }

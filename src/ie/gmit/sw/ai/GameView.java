@@ -120,6 +120,9 @@ public class GameView extends Canvas {
         this.sprites = sprites;
     }
 
+    /**
+     * Exit the game if the player has reached the exit.
+     */
     private void isPlayerAtExit() {
         double distance = Maths.distance(player.getPosition(), exitPoint);
 
