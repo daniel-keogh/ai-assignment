@@ -9,7 +9,7 @@ import net.sourceforge.jFuzzyLogic.rule.Variable;
  * Denotes an object that can inflict damage upon the player.
  */
 public class NpcWeapon {
-    private static final String FCL_FILE = "./src/resources/fuzzy/damage.fcl";
+    private static final String FCL_FILE = "./resources/fuzzy/damage.fcl";
     private static final FIS fis;
 
     static {

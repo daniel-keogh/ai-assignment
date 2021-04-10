@@ -37,7 +37,7 @@ import java.io.IOException;
  */
 public class NpcBehaviour {
 
-    private static final String FILE_NAME = "./src/resources/neural/ChaseBehaviourNN.bin";
+    private static final String FILE_NAME = "./resources/neural/ChaseBehaviourNN.bin";
     private static final double MIN_ERROR = 0.15;
 
     private static NpcBehaviour instance;
@@ -112,7 +112,7 @@ public class NpcBehaviour {
         //----------------------------------------------------
         // Step 1: Declare Network Topology
         //----------------------------------------------------
-        System.out.println("[info] Creating neural network topology...");
+        System.out.println("[Info] Creating neural network topology...");
 
         network = new BasicNetwork();
         network.addLayer(new BasicLayer(null, true, 3));
@@ -124,7 +124,7 @@ public class NpcBehaviour {
         //----------------------------------------------------
         // Step 2: Create the training data set
         //----------------------------------------------------
-        System.out.println("[info] Creating training set...");
+        System.out.println("[Info] Creating training set...");
 
         double[][] normData = NNUtils.normalize(data, 0, 1);
         double[][] normExpected = NNUtils.normalize(expected, 0, 1);
@@ -133,7 +133,7 @@ public class NpcBehaviour {
         //----------------------------------------------------
         // Step 3: Train the NN
         //----------------------------------------------------
-        System.out.println("[info] Training the network...");
+        System.out.println("[Info] Training the network...");
         ResilientPropagation train = new ResilientPropagation(network, trainingSet);
 
         int epoch = 1;
@@ -144,12 +144,12 @@ public class NpcBehaviour {
         } while (train.getError() > MIN_ERROR);
         train.finishTraining();
 
-        System.out.println("[info] training complete in " + epoch + " epochs with error=" + train.getError());
+        System.out.println("[Info] training complete in " + epoch + " epochs with error=" + train.getError());
 
         //----------------------------------------------------
         // Step 4: Test the NN
         //----------------------------------------------------
-        System.out.println("[info] Testing the network...");
+        System.out.println("[Info] Testing the network...");
 
         int correct = 0;
         int total = 0;
@@ -174,10 +174,10 @@ public class NpcBehaviour {
         //----------------------------------------------------
         // Step 5: Shutdown the NN
         //----------------------------------------------------
-        System.out.println("[info] Shutting down...");
+        System.out.println("[Info] Shutting down...");
         Encog.getInstance().shutdown();
 
-        System.out.printf("[info] Accuracy: %.2f%%\n", ((double) correct / total) * 100);
+        System.out.printf("[Info] Accuracy: %.2f%%\n", ((double) correct / total) * 100);
     }
 
     /**

@@ -83,7 +83,7 @@ public class Npc implements Command {
                 temp_col += rand.nextBoolean() ? 1 : -1;
             }
         } else {
-            System.out.printf("NPC %c chasing the player...\n", enemyId);
+            System.out.printf("NPC %c: chasing the player...\n", enemyId);
             Node next = route.pop();
             temp_row = next.point().row();
             temp_col = next.point().column();
@@ -106,7 +106,7 @@ public class Npc implements Command {
         final int restEnergyDelta = 25;
 
         if (currentAction == Action.REST) {
-            System.out.printf("NPC %c resting...\n", enemyId);
+            System.out.printf("NPC %c: resting...\n", enemyId);
             energy += restEnergyDelta;
             if (energy > MAX_ENERGY) {
                 energy = MAX_ENERGY;
@@ -147,7 +147,7 @@ public class Npc implements Command {
         if (distance <= 1) {
             int damage = (int) npcAttack.getDamage(strength, energy);
             player.reduceHealth(damage);
-            System.out.printf("NPC %c attacking the player (damage: %d)...\n", enemyId, damage);
+            System.out.printf("NPC %c: attacking the player (damage: %d)...\n", enemyId, damage);
         }
     }
 
